@@ -7,7 +7,7 @@ var github;
 var context;
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
-const updatedByDays = 3; // number of days ago to check for updates
+const updatedByDays = 1; // number of days ago to check for updates
 const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
