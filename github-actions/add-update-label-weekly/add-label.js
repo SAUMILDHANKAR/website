@@ -7,13 +7,10 @@ var context;
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
-const updatedByDays = 2; // number of days ago to check for updates
-const cutoffTime = new Date()
+var updatedByDays = 2; // number of days ago to check for updates
+var cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
-const inactiveUpdatedByDays = 3; // number of days to check for inactive
-const inactiveCutoffTime = new Date()
-inactiveCutoffTime.setDate(inactiveCutoffTime.getDate() - inactiveUpdatedByDays)
 
 /**
  * The main function, which retrieves issues from a specific column in a specific project, before examining the timeline of each issue for outdatedness. If outdated, the old status label is removed, and an updated is requested. Otherwise, the issue is labeled as updated.
@@ -46,15 +43,7 @@ async function main({ g, c }, columnId) {
       await addLabels(issueNum, statusUpdatedLabel);
     }
 
-	// Adds inactive label if the issue's timeline indicates the issue is outdated.
-    if (await isInactiveTimelineOutdated(timeline, issueNum, assignees)) {
-      console.log(`Going to add inactive label for issue #${issueNum}`);
-      await addLabels(issueNum, inactiveLabel);
-    } else {
-      console.log(`No updates needed for issue #${issueNum}`);
-	  await removeLabels(issueNum, inactiveLabel);
-    }
-
+	
   }
 }
 
@@ -128,7 +117,7 @@ async function* getTimeline(issueNum) {
  */
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
-    if (isMomentRecent(moment.created_at)) {
+    if (isMomentRecent(moment.created_at, updatedByDays)) {
       if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
         return false
       } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
@@ -139,26 +128,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
   return true
 }
 
-/**
- * Assesses whether the timeline is outdated.
- * @param {Array} timeline a list of events in the timeline of an issue, retrieved from the issues API
- * @param {Number} issueNum the issue's number
- * @param {String} assignees a list of the issue's assignee's username
- * @returns true if timeline indicates the issue is outdated, false if not
- * Note: Outdated means that the assignee did not make a linked PR or comment within the cutoffTime (see global variables).
- */
- async function isInactiveTimelineOutdated(timeline, issueNum, assignees) {
-  for await (let moment of timeline) {
-    if (isInactiveMomentRecent(moment.created_at)) {
-      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-        return false
-		} else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-        return false
-      }
-    }
-  }
-  return true
-}
+
 
 /**
  * Removes labels from a specified issue
@@ -218,23 +188,9 @@ async function postComment(issueNum, assignees) {
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-function isMomentRecent(dateString) {
-  const dateStringObj = new Date(dateString);
-  if (dateStringObj >= cutoffTime) {
-    return true
-  } else {
-    return false
-	 }
-}
-
-function isInactiveMomentRecent(dateString) {
-  const dateStringObj = new Date(dateString);
-
-  if (dateStringObj >= inactiveCutoffTime) {
-    return true
-  } else {
-    return false
-  }
+function isMomentRecent(dateString, updatedByDays) {
+	const dateStringObj = new Date(dateString);
+	return (dateStringObj >= cutoffTime) 
 }
 
 function isLinkedIssue(data, issueNum) {
