@@ -1,7 +1,6 @@
 // Import modules
 const findLinkedIssue = require('../utils/find-linked-issue');
 var fs = require("fs");
-
 // Global variables
 var github;
 var context;
@@ -25,34 +24,37 @@ inactiveCutoffTime.setDate(inactiveCutoffTime.getDate() - inactiveUpdatedByDays)
 async function main({ g, c }, columnId) {
   github = g;
   context = c;
-
   // Retrieve all issue numbers from a column
   const issueNums = getIssueNumsFromColumn(columnId);
-
   for await (let issueNum of issueNums) {
     const timeline = getTimeline(issueNum);
     const assignees = await getAssignees(issueNum);
-
     // Error catching.
     if (!assignees) {
       console.log(`Assignee not found, skipping issue #${issueNum}`)
       continue
     }
-
     // Adds label if the issue's timeline indicates the issue is outdated.
     if (await isTimelineOutdated(timeline, issueNum, assignees)) {
       console.log(`Going to ask for an update now for issue #${issueNum}`);
       await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
       await addLabels(issueNum, toUpdateLabel);
       await postComment(issueNum, assignees);
-    } else if (await isInactiveTimelineOutdated(timeline, issueNum, assignees) && isTimelineOutdated(timeline, issueNum, assignees)) {
+    } else {
+      console.log(`No updates needed for issue #${issueNum}`);
+	  await removeLabels(issueNum, toUpdateLabel);
+      await addLabels(issueNum, statusUpdatedLabel);
+    }
+
+	// Adds inactive label if the issue's timeline indicates the issue is outdated.
+    if (await isInactiveTimelineOutdated(timeline, issueNum, assignees)) {
+      console.log(`Going to add inactive label for issue #${issueNum}`);
       await addLabels(issueNum, inactiveLabel);
     } else {
       console.log(`No updates needed for issue #${issueNum}`);
-      await removeLabels(issueNum, toUpdateLabel);
-      await addLabels(issueNum, statusUpdatedLabel);
 	  await removeLabels(issueNum, inactiveLabel);
     }
+
   }
 }
 
@@ -70,7 +72,6 @@ async function* getIssueNumsFromColumn(columnId) {
         per_page: 100,
         page: page
       });
-
       if (results.data.length) {
         for (let card of results.data) {
           if (card.hasOwnProperty('content_url')) {
@@ -88,7 +89,6 @@ async function* getIssueNumsFromColumn(columnId) {
     }
   }
 }
-
 /**
  * Generator that returns the timeline of an issue.
  * @param {Number} issueNum the issue's number 
@@ -105,7 +105,6 @@ async function* getTimeline(issueNum) {
         per_page: 100,
         page: page,
       });
-
       if (results.data.length) {
         yield* results.data
       } else {
@@ -119,7 +118,6 @@ async function* getTimeline(issueNum) {
     }
   }
 }
-
 /**
  * Assesses whether the timeline is outdated.
  * @param {Array} timeline a list of events in the timeline of an issue, retrieved from the issues API
@@ -142,14 +140,21 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 }
 
 /**
- * Note: Here outdated means that the assignee did not make a comment within the inactiveCutoffTime (see global variables).
+ * Assesses whether the timeline is outdated.
+ * @param {Array} timeline a list of events in the timeline of an issue, retrieved from the issues API
+ * @param {Number} issueNum the issue's number
+ * @param {String} assignees a list of the issue's assignee's username
+ * @returns true if timeline indicates the issue is outdated, false if not
+ * Note: Outdated means that the assignee did not make a linked PR or comment within the cutoffTime (see global variables).
  */
-async function isInactiveTimelineOutdated(timeline, issueNum, assignees) {
+ async function isInactiveTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
-    if (isMomentRecent.isInactiveMomentRecent(moment.created_at)) {
-      if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+    if (isInactiveMomentRecent(moment.created_at)) {
+      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
         return false
-      } 
+		} else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+        return false
+      }
     }
   }
   return true
@@ -176,7 +181,6 @@ async function removeLabels(issueNum, ...labels) {
     }
   }
 }
-
 /**
  * Adds labels to a specified issue
  * @param {Number} issueNum an issue's number
@@ -197,12 +201,10 @@ async function addLabels(issueNum, ...labels) {
     console.error(`Could not add these labels for issue #${issueNum}: ${labels}`);
   }
 }
-
 async function postComment(issueNum, assignees) {
   try {
     const assigneeString = createAssigneeString(assignees);
     const instructions = formatComment(assigneeString);
-
     await github.issues.createComment({
       owner: context.repo.owner,
       repo: context.repo.repo,
@@ -213,37 +215,34 @@ async function postComment(issueNum, assignees) {
     console.error(`Could not post a comment for issue #${issueNum}`);
   }
 }
-
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-
 function isMomentRecent(dateString) {
-	const dateStringObj = new Date(dateString);
-	if (dateStringObj >= cutoffTime) {
-		return true
-	}
-	function isInactiveMomentRecent(dateString) {
-		const dateStringObj = new Date(dateString);
-		if (dateStringObj >= inactiveCutoffTime) {
-			return true
-		}
-		else {
-			return false
-		}
-	}
-	isMomentRecent.isInactiveMomentRecent = isInactiveMomentRecent;
-	return false
+  const dateStringObj = new Date(dateString);
+  if (dateStringObj >= cutoffTime) {
+    return true
+  } else {
+    return false
+	 }
+}
+
+function isInactiveMomentRecent(dateString) {
+  const dateStringObj = new Date(dateString);
+
+  if (dateStringObj >= inactiveCutoffTime) {
+    return true
+  } else {
+    return false
+  }
 }
 
 function isLinkedIssue(data, issueNum) {
   return findLinkedIssue(data.source.issue.body) == issueNum
 }
-
 function isCommentByAssignees(data, assignees) {
   return assignees.includes(data.actor.login)
 }
-
 async function getAssignees(issueNum) {
   try {
     const results = await github.issues.get({
@@ -259,7 +258,6 @@ async function getAssignees(issueNum) {
     return null
   }
 }
-
 function filterForAssigneesLogins(data) {
   logins = [];
   for (let item of data) {
@@ -267,7 +265,6 @@ function filterForAssigneesLogins(data) {
   }
   return logins
 }
-
 function createAssigneeString(assignees) {
   const assigneeString = [];
   for (let assignee of assignees) {
@@ -275,7 +272,6 @@ function createAssigneeString(assignees) {
   }
   return assigneeString.join(', ')
 }
-
 function formatComment(assignees) {
   const path = './github-actions/add-update-label-weekly/update-instructions-template.md'
   const text = fs.readFileSync(path).toString('utf-8');
@@ -285,10 +281,8 @@ function formatComment(assignees) {
     timeZone: 'America/Los_Angeles',
     timeZoneName: 'short',
   }
-
   const cutoffTimeString = cutoffTime.toLocaleString('en-US', options);
   let completedInstuctions = text.replace('${assignees}', assignees).replace('${cutoffTime}', cutoffTimeString);
   return completedInstuctions
 }
-
 module.exports = main
