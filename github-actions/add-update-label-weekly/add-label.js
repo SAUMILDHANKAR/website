@@ -6,7 +6,7 @@ var fs = require("fs");
 var github;
 var context;
 const statusUpdatedLabel = 'Status: Updated';
-const toUpdateLabel = 'To Up22date !';
+const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 2; // number of days ago to check for updates
 const cutoffTime = new Date()
