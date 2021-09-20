@@ -7,9 +7,14 @@ var github;
 var context;
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
+const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 2; // number of days ago to check for updates
 const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+
+const inactiveUpdatedByDays = 3; // number of days to check for inactive
+const inactiveCutoffTime = new Date()
+inactiveCutoffTime.setDate(inactiveCutoffTime.getDate() - inactiveUpdatedByDays)
 
 /**
  * The main function, which retrieves issues from a specific column in a specific project, before examining the timeline of each issue for outdatedness. If outdated, the old status label is removed, and an updated is requested. Otherwise, the issue is labeled as updated.
@@ -40,10 +45,13 @@ async function main({ g, c }, columnId) {
       await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
       await addLabels(issueNum, toUpdateLabel);
       await postComment(issueNum, assignees);
+    } else if (await isInactiveTimelineOutdated(timeline, issueNum, assignees) && isTimelineOutdated(timeline, issueNum, assignees)) {
+      await addLabels(issueNum, inactiveLabel);
     } else {
       console.log(`No updates needed for issue #${issueNum}`);
       await removeLabels(issueNum, toUpdateLabel);
       await addLabels(issueNum, statusUpdatedLabel);
+	  await removeLabels(issueNum, inactiveLabel);
     }
   }
 }
@@ -134,6 +142,20 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 }
 
 /**
+ * Note: Here outdated means that the assignee did not make a comment within the inactiveCutoffTime (see global variables).
+ */
+async function isInactiveTimelineOutdated(timeline, issueNum, assignees) {
+  for await (let moment of timeline) {
+    if (isMomentRecent.isInactiveMomentRecent(moment.created_at)) {
+      if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+        return false
+      } 
+    }
+  }
+  return true
+}
+
+/**
  * Removes labels from a specified issue
  * @param {Number} issueNum an issue's number
  * @param {Array} labels an array containing the labels to remove (captures the rest of the parameters)
@@ -197,13 +219,21 @@ async function postComment(issueNum, assignees) {
 ***********************/
 
 function isMomentRecent(dateString) {
-  const dateStringObj = new Date(dateString);
-
-  if (dateStringObj >= cutoffTime) {
-    return true
-  } else {
-    return false
-  }
+	const dateStringObj = new Date(dateString);
+	if (dateStringObj >= cutoffTime) {
+		return true
+	}
+	function isInactiveMomentRecent(dateString) {
+		const dateStringObj = new Date(dateString);
+		if (dateStringObj >= inactiveCutoffTime) {
+			return true
+		}
+		else {
+			return false
+		}
+	}
+	isMomentRecent.isInactiveMomentRecent = isInactiveMomentRecent;
+	return false
 }
 
 function isLinkedIssue(data, issueNum) {
