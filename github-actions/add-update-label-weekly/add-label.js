@@ -123,11 +123,16 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
       } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
         return false
       }
-    }
-  }
+	  console.log("first one works")
+	}
+	else if (isMomentRecent(moment.created_at, updatedByDays)){
+		if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)){
+			return false
+			console.log("second one works")
+		}
+	}
   return true
 }
-
 
 
 /**
