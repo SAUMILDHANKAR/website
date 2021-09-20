@@ -132,6 +132,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		}
 	}
   return true
+  }
 }
 
 
