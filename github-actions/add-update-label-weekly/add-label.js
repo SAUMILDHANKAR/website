@@ -125,18 +125,18 @@ async function* getTimeline(issueNum) {
  * @returns true if timeline indicates the issue is outdated, false if not
  * Note: Outdated means that the assignee did not make a linked PR or comment within the cutoffTime (see global variables).
  */
+
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
-    if (isMomentRecent(moment.created_at, updatedByDays) && updatedByDays<=2) {
-      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-        return false
-      } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-        return false
-      }
-	  console.log("first one works")
-	  
-	  
-	  
+	if (updatedbyDays<=2){
+		if (isMomentRecent(moment.created_at, updatedByDays)) {
+		  if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+			return false
+		  } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+			return false
+		  }
+		  console.log("first one works")
+		} 
 	}
    if (isMomentRecent(moment.created_at, updatedByDays)){
 		if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)){
@@ -147,7 +147,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
   return true
   }
 }
-
 
 /**
  * Removes labels from a specified issue
