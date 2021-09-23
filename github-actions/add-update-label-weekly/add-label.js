@@ -127,7 +127,7 @@ async function* getTimeline(issueNum) {
  */
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
-    if (isMomentRecent(moment.created_at, updatedByDays) && updatedbyDays<=2) {
+    if (isMomentRecent(moment.created_at, updatedByDays) && updatedByDays<=2) {
       if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
         return false
       } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
