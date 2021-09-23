@@ -42,7 +42,13 @@ async function main({ g, c }, columnId) {
 	  await removeLabels(issueNum, toUpdateLabel);
       await addLabels(issueNum, statusUpdatedLabel);
     }
-
+	  
+    if (await isTimelineOutdated(timeline, issueNum, assignees) && updatedByDays>=3) {
+      console.log(`inactive call works`);
+	  await addLabels(issueNum, inactiveLabel);
+    } else {
+	  await removeLabels(issueNum, inactiveLabel);
+    }	  
 	
   }
 }
@@ -124,12 +130,18 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
         return false
       }
 	  console.log("first one works")
+	  var updatedByDays=3;
+	  var cutoffTime = new Date()
+	  cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 	  if (isMomentRecent(moment.created_at, updatedByDays)){
 		if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)){
 			return false
 			}
 		console.log("second one works")
 		}
+	  var updatedByDays=2;
+	  var cutoffTime = new Date()
+	  cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 	}
   return true
   }
