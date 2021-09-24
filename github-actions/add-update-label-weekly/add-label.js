@@ -43,8 +43,8 @@ async function main({ g, c }, columnId) {
       await addLabels(issueNum, statusUpdatedLabel);
     }
 	  
-    var updatedByDays=3;
-    var cutoffTime = new Date()
+    updatedByDays=3;
+    cutoffTime = new Date()
     cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)	  
 	  
     if (await isTimelineOutdated(timeline, issueNum, assignees)) {
