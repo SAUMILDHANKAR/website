@@ -128,6 +128,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
+	  console.log('updated by days', updatedByDays)
 	if (updatedByDays<=2){
 		if (isMomentRecent(moment.created_at, updatedByDays)) {
 		  if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
