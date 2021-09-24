@@ -209,7 +209,7 @@ async function postComment(issueNum, assignees) {
 ***********************/
 function isMomentRecent(dateString, updatedByDays) {
 	const dateStringObj = new Date(dateString);
-	return (dateStringObj >= cutoffTime) 
+	return (dateStringObj >= updatedByDays) 
 }
 
 function isLinkedIssue(data, issueNum) {
