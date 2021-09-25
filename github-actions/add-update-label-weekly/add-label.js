@@ -42,7 +42,8 @@ async function main({ g, c }, columnId) {
 	  await removeLabels(issueNum, toUpdateLabel);
       await addLabels(issueNum, statusUpdatedLabel);
     }
-	  
+
+    	  
     if (await isTimelineOutdated(timeline, issueNum, assignees)) {
       console.log(`inactive call works`);
 	  await addLabels(issueNum, inactiveLabel);
@@ -127,7 +128,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 	console.log('updated by days', updatedByDays)
 	if (updatedByDays<=2){
 		if (isMomentRecent(moment.created_at, updatedByDays)) {
-		  console.log('updated by days', updatedByDays)
+		  console.log('cutoffTime', cutoffTime)
 		  if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 			return false
 		  } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
@@ -136,17 +137,22 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		  console.log("first one works")
 		} 
 	}
-	updatedByDays=3;
-	cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+	
+  	    updatedByDays=2;
+	    cutoffTime = new Date()
+	 n  cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+
+	  
     if (isMomentRecent(moment.created_at, updatedByDays)){
+	    updatedByDays=5;
+	    cutoffTime = new Date()
+	 n  cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 		if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)){
-			console.log('updated by days', updatedByDays)
+			console.log('cutoffTime', cutoffTime)
 			return false
 			}
 		console.log("second one works")
 	}
-	updatedByDays=-3;
-	cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
   return true
   }
 }
