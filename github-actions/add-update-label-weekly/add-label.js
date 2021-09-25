@@ -138,9 +138,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		} 
 	}
 	
-  	    updatedByDays=2;
-	    cutoffTime = new Date()
-	    cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
 	  
     if (isMomentRecent(moment.created_at, updatedByDays)){
