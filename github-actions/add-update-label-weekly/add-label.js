@@ -140,13 +140,13 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 	
   	    updatedByDays=2;
 	    cutoffTime = new Date()
-	 n  cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+	    cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
 	  
     if (isMomentRecent(moment.created_at, updatedByDays)){
 	    updatedByDays=5;
 	    cutoffTime = new Date()
-	 n  cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+	    cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 		if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)){
 			console.log('cutoffTime', cutoffTime)
 			return false
