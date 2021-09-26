@@ -7,7 +7,9 @@ var context;
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
-var updatedByDays = 2; // number of days ago to check for updates
+var updatedByDays = 3; // number of days ago to check for updates
+var inactiveUpdatedByDays1 = 14; // 
+var inactiveUpdatedByDays2 = 3;
 var cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
@@ -35,21 +37,19 @@ async function main({ g, c }, columnId) {
     if (await isTimelineOutdated(timeline, issueNum, assignees)) {
       console.log(`Going to ask for an update now for issue #${issueNum}`);
       await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
-      await addLabels(issueNum, toUpdateLabel);
       await postComment(issueNum, assignees);
+			if (await isTimelineInactive(timeline, issueNum, assignees)) {
+      	await addLabels(issueNum, inactiveLabel, toUpdateLabel);
+			} else {
+				await addLabels(issueNum, toUpdateLabel);
+				}
     } else {
       console.log(`No updates needed for issue #${issueNum}`);
-	  await removeLabels(issueNum, toUpdateLabel);
+	  	await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
       await addLabels(issueNum, statusUpdatedLabel);
     }
-
-    	  
-    if (await isTimelineOutdated(timeline, issueNum, assignees)) {
-      console.log(`inactive call works`);
-	  await addLabels(issueNum, inactiveLabel);
-    } else {
-	  await removeLabels(issueNum, inactiveLabel);
-    }	  
+		
+ 
 	
   }
 }
@@ -125,34 +125,39 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
-	console.log('updated by days', updatedByDays)
-	if (updatedByDays<=2){
-		if (isMomentRecent(moment.created_at, updatedByDays)) {
-		  console.log('cutoffTime', cutoffTime)
-		  if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-			return false
-		  } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-			return false
-		  }
-		  console.log("first one works")
-		} 
-	}
-	
-
-	  
-    if (isMomentRecent(moment.created_at, updatedByDays)){
-	    updatedByDays=5;
-	    cutoffTime = new Date()
-	    cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
-		if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)){
-			console.log('cutoffTime', cutoffTime)
-			return false
-			}
-		console.log("second one works")
-	}
-  return true
+    if (isMomentRecent(moment.created_at, cutoffTime)) {
+      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+        return false
+      } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+        return false
+      }
+    }
   }
+  return true
 }
+
+
+async function isTimelineInactive(timeline, issueNum, assignees) {
+  var cutoffTime1 = new Date()
+  cutoffTime1.setDate(cutoffTime.getDate() - inactiveUpdatedByDays1)
+  var cutoffTime2 = new Date()
+  cutoffTime2.setDate(cutoffTime.getDate() - inactiveUpdatedByDays2)
+	for await (let moment of timeline) {
+		if (isMomentRecent(moment.created_at, cutoffTime1)) {
+			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+				return false
+			} 
+		}
+    if (isMomentRecent(moment.created_at, cutoffTime2)) {
+      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+        return false
+      } 
+    }
+  }
+  return true
+}
+
+
 
 /**
  * Removes labels from a specified issue
@@ -212,10 +217,16 @@ async function postComment(issueNum, assignees) {
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-function isMomentRecent(dateString, updatedByDays) {
-	const dateStringObj = new Date(dateString);
-	return (dateStringObj >= cutoffTime) 
+function isMomentRecent(dateString, cutoffTime) {
+  const dateStringObj = new Date(dateString);
+
+  if (dateStringObj >= cutoffTime) {
+    return true
+  } else {
+    return false
+  }
 }
+
 
 function isLinkedIssue(data, issueNum) {
   return findLinkedIssue(data.source.issue.body) == issueNum
