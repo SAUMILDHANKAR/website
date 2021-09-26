@@ -8,7 +8,7 @@ const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 var updatedByDays = 3; // number of days ago to check for updates
-var inactiveUpdatedByDays1 = 14; // 
+var inactiveUpdatedByDays1 = 6; // 
 var inactiveUpdatedByDays2 = 3;
 var cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
@@ -42,15 +42,12 @@ async function main({ g, c }, columnId) {
       	await addLabels(issueNum, inactiveLabel, toUpdateLabel);
 			} else {
 				await addLabels(issueNum, toUpdateLabel);
-				}
-    } else {
-      console.log(`No updates needed for issue #${issueNum}`);
-	  	await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-      await addLabels(issueNum, statusUpdatedLabel);
-    }
-		
- 
-	
+			} else {
+				console.log(`No updates needed for issue #${issueNum}`);
+				await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+				await addLabels(issueNum, statusUpdatedLabel);
+			}
+		}	
   }
 }
 
