@@ -42,11 +42,11 @@ async function main({ g, c }, columnId) {
       	await addLabels(issueNum, inactiveLabel, toUpdateLabel);
 			} else {
 				await addLabels(issueNum, toUpdateLabel);
-			} else {
-				console.log(`No updates needed for issue #${issueNum}`);
-				await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-				await addLabels(issueNum, statusUpdatedLabel);
 			}
+		} else {
+			console.log(`No updates needed for issue #${issueNum}`);
+			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			await addLabels(issueNum, statusUpdatedLabel);
 		}	
   }
 }
