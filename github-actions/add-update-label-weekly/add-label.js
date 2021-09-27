@@ -149,12 +149,12 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
 				return false
 			} 
 		}
-    if (isMomentRecent(moment.created_at, cutoffTime2)) {
-      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-        return false
-      } 
-    }
-  }
+		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				return false
+			} 
+		}
+	}
   return true
 }
 
