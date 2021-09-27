@@ -128,9 +128,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
       } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
         return false
       }
-    } else {
-    	return false
-    }
+    } 
   }
   return true
 }
@@ -149,16 +147,12 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
 		if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				return false
-			} else {
-				return false
-			}
+			} 
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return false
-			} else {
-				return false
-			}
+			} 
 		}
 	}
   return true
