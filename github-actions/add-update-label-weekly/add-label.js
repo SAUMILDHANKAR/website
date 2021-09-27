@@ -21,25 +21,25 @@ cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
  * @param {Number} columnId a number presenting a specific column to examine, supplied by GitHub secrets
  */
 async function main({ g, c }, columnId) {
-  github = g;
-  context = c;
-  // Retrieve all issue numbers from a column
-  const issueNums = getIssueNumsFromColumn(columnId);
-  for await (let issueNum of issueNums) {
-    const timeline = getTimeline(issueNum);
-    const assignees = await getAssignees(issueNum);
-    // Error catching.
-    if (!assignees) {
-      console.log(`Assignee not found, skipping issue #${issueNum}`)
-      continue
-    }
-    // Adds label if the issue's timeline indicates the issue is outdated.
-    if (await isTimelineOutdated(timeline, issueNum, assignees)) {
-      console.log(`Going to ask for an update now for issue #${issueNum}`);
-      await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
-      await postComment(issueNum, assignees);
+	github = g;
+	context = c;
+	// Retrieve all issue numbers from a column
+	const issueNums = getIssueNumsFromColumn(columnId);
+	for await (let issueNum of issueNums) {
+	const timeline = getTimeline(issueNum);
+	const assignees = await getAssignees(issueNum);
+	// Error catching.
+	if (!assignees) {
+	  console.log(`Assignee not found, skipping issue #${issueNum}`)
+	  continue
+	}
+		// Adds label if the issue's timeline indicates the issue is outdated.
+		if (await isTimelineOutdated(timeline, issueNum, assignees)) {
+			console.log(`Going to ask for an update now for issue #${issueNum}`);
+			await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
+			await postComment(issueNum, assignees);
 			if (await isTimelineInactive(timeline, issueNum, assignees)) {
-      	await addLabels(issueNum, inactiveLabel, toUpdateLabel);
+				await addLabels(issueNum, inactiveLabel, toUpdateLabel);
 			} else {
 				await addLabels(issueNum, toUpdateLabel);
 			}
@@ -48,7 +48,7 @@ async function main({ g, c }, columnId) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, statusUpdatedLabel);
 		}	
-  }
+	}
 }
 
 /**
