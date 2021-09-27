@@ -8,8 +8,8 @@ const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 var updatedByDays = 3; // number of days ago to check for updates
-var inactiveUpdatedByDays1 = 6; // 
-var inactiveUpdatedByDays2 = 3;
+var inactiveUpdatedByDays1 = 6; // number of days ago to check for comment by assignee (for 2 week inactive label)
+var inactiveUpdatedByDays2 = 3; // number of days ago to check for linked PR (for 2 week inactive label)
 var cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
@@ -133,12 +133,16 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
   return true
 }
 
+/**
+ * Assesses whether the timeline is inactive.
+ * Note: Inactive means that the assignee did not make a comment within 14 days (cutoffTime1 derived from inactiveUpdatedByDays1) and there is no linked PR in last 3 days ((cutoffTime2 derived from inactiveUpdatedByDays2)
+ */
 
 async function isTimelineInactive(timeline, issueNum, assignees) {
   var cutoffTime1 = new Date()
-  cutoffTime1.setDate(cutoffTime.getDate() - inactiveUpdatedByDays1)
+  cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays1)
   var cutoffTime2 = new Date()
-  cutoffTime2.setDate(cutoffTime.getDate() - inactiveUpdatedByDays2)
+  cutoffTime2.setDate(cutoffTime2.getDate() - inactiveUpdatedByDays2)
 	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
