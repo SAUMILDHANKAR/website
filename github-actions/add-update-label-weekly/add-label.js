@@ -128,6 +128,8 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
       } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
         return false
       }
+    } else {
+    	return false
     }
   }
   return true
