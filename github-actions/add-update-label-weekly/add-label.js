@@ -144,8 +144,6 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
   var cutoffTime2 = new Date()
   cutoffTime2.setDate(cutoffTime2.getDate() - inactiveUpdatedByDays2)
 	for await (let moment of timeline) {
-		console.log(cutoffTime1);
-		console.log(cutoffTime2);
 		if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				return false
