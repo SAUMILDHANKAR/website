@@ -33,7 +33,8 @@ async function main({ g, c }, columnId) {
 	  console.log(`Assignee not found, skipping issue #${issueNum}`)
 	  continue
 	}
-		// Adds label if the issue's timeline indicates the issue is outdated.
+		// Adds label if the issue's timeline indicates the issue is outdated. 
+		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
 		if (await isTimelineOutdated(timeline, issueNum, assignees)) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
