@@ -155,6 +155,13 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
 			console.log('more than 3 days')
+			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+				return false
+			} 
+			
+			return false
+		}
+		else {
 			return false
 		}
 	}
