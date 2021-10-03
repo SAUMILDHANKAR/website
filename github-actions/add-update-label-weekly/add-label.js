@@ -144,9 +144,9 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
   cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
   const cutoffTime2 = new Date()
   cutoffTime2.setDate(cutoffTime2.getDate() - updatedByDays)
-  console.log(`cutoffTime1 is ${cutoffTime1}`)
-  console.log(`cutoffTime2 is ${cutoffTime2}`)
-	for await (let moment of timeline) {
+  	for await (let moment of timeline) {
+		console.log('moment:', moment)
+		console.log(`function return: ${isMomentRecent(moment.created_at, cutoffTime2)}`)
 		if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			console.log('more than 14 days')
 			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
@@ -162,6 +162,7 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
 			return false
 		}
 		else {
+			console.log('no comment')
 			return false
 		}
 	}
