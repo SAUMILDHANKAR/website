@@ -7,10 +7,9 @@ var context;
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
-var updatedByDays = 3; // number of days ago to check for updates
-var inactiveUpdatedByDays1 = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
-var inactiveUpdatedByDays2 = 3; // number of days ago to check for linked PR (for 2 week inactive label)
-var cutoffTime = new Date()
+const updatedByDays = 3; // number of days ago to check for updates
+const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
+const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 
 
@@ -141,10 +140,10 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
  */
 
 async function isTimelineInactive(timeline, issueNum, assignees) {
-  var cutoffTime1 = new Date()
-  cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays1)
-  var cutoffTime2 = new Date()
-  cutoffTime2.setDate(cutoffTime2.getDate() - inactiveUpdatedByDays2)
+  const cutoffTime1 = new Date()
+  cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
+  const cutoffTime2 = new Date()
+  cutoffTime2.setDate(cutoffTime2.getDate() - updatedByDays)
 	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
@@ -152,9 +151,7 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
 			} 
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
-			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return false
-			} 
 		}
 	}
   return true
