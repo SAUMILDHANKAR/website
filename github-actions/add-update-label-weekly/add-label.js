@@ -40,7 +40,7 @@ async function main({ g, c }, columnId) {
 			await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
 			await postComment(issueNum, assignees);
 			if (await isTimelineInactive(timeline, issueNum, assignees)) {
-				console.log(timeline)
+				
 				await addLabels(issueNum, inactiveLabel, toUpdateLabel);
 			} else {
 				await addLabels(issueNum, toUpdateLabel);
@@ -124,6 +124,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
+    console.log('istimelineoutdated moment:', moment)
     if (isMomentRecent(moment.created_at, cutoffTime)) {
       if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
         return false
