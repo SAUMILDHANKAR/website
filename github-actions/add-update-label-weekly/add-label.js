@@ -8,7 +8,7 @@ const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 var updatedByDays = 3; // number of days ago to check for updates
-var inactiveUpdatedByDays1 = 6; // number of days ago to check for comment by assignee (for 2 week inactive label)
+var inactiveUpdatedByDays1 = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
 var inactiveUpdatedByDays2 = 3; // number of days ago to check for linked PR (for 2 week inactive label)
 var cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
