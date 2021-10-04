@@ -35,16 +35,29 @@ async function main({ g, c }, columnId) {
 	}
 		// Adds label if the issue's timeline indicates the issue is outdated. 
 		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
+		// const responseObject = isTimelineoutdated(timeline,issuenum, assinees)
+		/**
+		if (responseobject.result === true)
+			console.log(`Going to ask for an update now for issue #${issueNum}`);
+			await removeLabels(issueNum, responseobject.labels);  ...
+			await addLabels(issueNum, responseobject.labels);  ...
+			await postComment(issueNum, assignees);
+		} else {
+			console.log(`No updates needed for issue #${issueNum}`);
+			await removeLabels(issueNum, responseobject.labels);
+			await addLabels(issueNum, responseobject.labels);
+		*/
 		if (await isTimelineOutdated(timeline, issueNum, assignees)) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
 			await postComment(issueNum, assignees);
-			if (await isTimelineInactive(timeline, issueNum, assignees)) {
+			/**if (await isTimelineInactive(timeline, issueNum, assignees)) {
 				
 				await addLabels(issueNum, inactiveLabel, toUpdateLabel);
 			} else {
 				await addLabels(issueNum, toUpdateLabel);
 			}
+			*/
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
@@ -122,6 +135,25 @@ async function* getTimeline(issueNum) {
  * Note: Outdated means that the assignee did not make a linked PR or comment within the cutoffTime (see global variables).
  */
 
+/** if (latest comment is > cutofftime = 3 days && comment < 2 weeks) 
+	if (is linked)
+		return object {result:false, labels: [status updated]}
+	else if (is commented by assignee)
+		return object {result:false, labels: [status updated]}
+	else 
+		return object {result:true, labels: [to update]}
+    else if (latest comment is > 2 weeeks)	
+    	if (is linked)
+		return object {result:false, labels: [status updated]}
+	else if (is commented by assignee)
+		return object {result:false, labels: [status updated]}
+    	else 
+		return object {result:true, labels: [2 week inactive, to update]}
+		
+   else (if assigned recently 5 days)
+   	return object false and no label
+	
+*/
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
     
