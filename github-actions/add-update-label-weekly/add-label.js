@@ -40,7 +40,7 @@ async function main({ g, c }, columnId) {
 		// 
 		
 		const responseObject = isTimelineOutdated(timeline, issueNum, assignees)
-		if (responseObject.result === true)
+		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, ...labels);  
 			await addLabels(issueNum, ...labels); 
@@ -49,6 +49,7 @@ async function main({ g, c }, columnId) {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, ...labels);
 			await addLabels(issueNum, ...labels);
+		}
 		
 		/**
 		if (await isTimelineOutdated(timeline, issueNum, assignees)) {
