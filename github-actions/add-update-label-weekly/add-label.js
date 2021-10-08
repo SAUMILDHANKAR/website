@@ -11,6 +11,8 @@ const updatedByDays = 3; // number of days ago to check for updates
 const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
 const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+const cutoffTime1 = new Date()
+cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
 
 
 /**
@@ -35,18 +37,20 @@ async function main({ g, c }, columnId) {
 	}
 		// Adds label if the issue's timeline indicates the issue is outdated. 
 		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
-		// const responseObject = isTimelineoutdated(timeline,issuenum, assinees)
-		/**
-		if (responseobject.result === true)
+		// 
+		
+		const responseObject = isTimelineOutdated(timeline, issueNum, assignees)
+		if (responseObject.result === true)
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, responseobject.labels);  ...
-			await addLabels(issueNum, responseobject.labels);  ...
+			await removeLabels(issueNum, ...labels);  
+			await addLabels(issueNum, ...labels); 
 			await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
-			await removeLabels(issueNum, responseobject.labels);
-			await addLabels(issueNum, responseobject.labels);
-		*/
+			await removeLabels(issueNum, ...labels);
+			await addLabels(issueNum, ...labels);
+		
+		/**
 		if (await isTimelineOutdated(timeline, issueNum, assignees)) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
@@ -58,11 +62,13 @@ async function main({ g, c }, columnId) {
 				await addLabels(issueNum, toUpdateLabel);
 			}
 			*/
+		/**
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, statusUpdatedLabel);
-		}	
+		}
+		*/
 	}
 }
 
@@ -135,7 +141,39 @@ async function* getTimeline(issueNum) {
  * Note: Outdated means that the assignee did not make a linked PR or comment within the cutoffTime (see global variables).
  */
 
-/** if (latest comment is > cutofftime = 3 days && comment < 2 weeks) 
+
+async function isTimelineOutdated(timeline, issueNum, assignees) {
+	for await (let moment of timeline) {
+		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
+			if (isLinkedIssue(moment, issueNum)) {
+				return responseObject {result: false, labels: [Status: Updated]}
+			}
+			else if (isCommentByAssignees(moment, assignees)) {
+				return responseObject {result: false, labels: [Status: Updated]}
+			}
+			else {
+				return responseObject {result: true, labels: [To Update !]}
+			}
+		}
+		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
+			if (isLinkedIssue(moment, issueNum)) {
+				return responseObject {result: false, labels: [Status: Updated]}
+			}
+			else if (isCommentByAssignees(moment, assignees)) {
+				return responseObject {result: false, labels: [Status: Updated]}
+			}
+			else {
+				return object {result: true, labels: [2 weeks inactive, To Update !]}
+			}
+		}
+		else if (isCommentByAssignees(moment, assignees)) {
+			return object {result:false, labels: [null]}
+		}	
+	}
+}	
+
+/**	  
+  if (latest comment is > cutofftime = 3 days && comment < 2 weeks) 
 	if (is linked)
 		return object {result:false, labels: [status updated]}
 	else if (is commented by assignee)
@@ -150,10 +188,12 @@ async function* getTimeline(issueNum) {
     	else 
 		return object {result:true, labels: [2 week inactive, to update]}
 		
-   else (if assigned recently 5 days)
-   	return object false and no label
+    else (if assigned recently 5 days)
+		return object false and no label
 	
 */
+
+/**
 async function isTimelineOutdated(timeline, issueNum, assignees) {
   for await (let moment of timeline) {
     
@@ -167,12 +207,12 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
   }
   return true
 }
-
+*/
 /**
  * Assesses whether the timeline is inactive.
  * Note: Inactive means that the assignee did not make a comment within 14 days (cutoffTime1 derived from inactiveUpdatedByDays1) and there is no linked PR in last 3 days ((cutoffTime2 derived from inactiveUpdatedByDays2)
  */
-
+/**
 async function isTimelineInactive(timeline, issueNum, assignees) {
   const cutoffTime1 = new Date()
   cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
@@ -203,7 +243,7 @@ async function isTimelineInactive(timeline, issueNum, assignees) {
 	}
   return true
 }
-
+*/
 
 
 /**
