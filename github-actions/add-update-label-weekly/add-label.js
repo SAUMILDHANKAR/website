@@ -150,25 +150,25 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return responseObject[result === false, label === 'Status: Updated']
 			}
 			else if (isCommentByAssignees(moment, assignees)) {
-				return responseObject [result === false, labels === 'Status: Updated']
+				return responseObject [result === false, label === 'Status: Updated']
 			}
 			else {
-				return responseObject [result === true, labels === 'To Update !']
+				return responseObject [result === true, label === 'To Update !']
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (isLinkedIssue(moment, issueNum)) {
-				return responseObject [result === false, labels === 'Status: Updated']
+				return responseObject [result === false, label === 'Status: Updated']
 			}
 			else if (isCommentByAssignees(moment, assignees)) {
-				return responseObject [result === false, labels === 'Status: Updated']
+				return responseObject [result === false, label === 'Status: Updated']
 			}
 			else {
-				return responseObject [result === true, labels === '2 weeks inactive', labels === 'To Update !']
+				return responseObject [result === true, label === '2 weeks inactive', label === 'To Update !']
 			}
 		}
 		else if (isCommentByAssignees(moment, assignees)) {
-			return responseObject [result === false, labels === 'null']
+			return responseObject [result === false, label === 'null']
 		}	
 	}
 }	
