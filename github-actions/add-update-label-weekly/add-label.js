@@ -13,6 +13,7 @@ const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 const cutoffTime1 = new Date()
 cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
+const responseObject = isTimelineOutdated(timeline, issueNum, assignees, ...labels)
 
 
 /**
@@ -39,7 +40,7 @@ async function main({ g, c }, columnId) {
 		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
 		// 
 		
-		const responseObject = isTimelineOutdated(timeline, issueNum, assignees)
+		
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, ...labels);  
@@ -147,28 +148,28 @@ async function isTimelineOutdated(timeline, issueNum, assignees, ...labels) {
 	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
 			if (isLinkedIssue(moment, issueNum)) {
-				return responseObject[result === false, label === 'Status: Updated']
+				return responseObject[result === false, labels === 'Status: Updated']
 			}
 			else if (isCommentByAssignees(moment, assignees)) {
-				return responseObject [result === false, label === 'Status: Updated']
+				return responseObject [result === false, labels === 'Status: Updated']
 			}
 			else {
-				return responseObject [result === true, label === 'To Update !']
+				return responseObject [result === true, labels === 'To Update !']
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (isLinkedIssue(moment, issueNum)) {
-				return responseObject [result === false, label === 'Status: Updated']
+				return responseObject [result === false, labels === 'Status: Updated']
 			}
 			else if (isCommentByAssignees(moment, assignees)) {
-				return responseObject [result === false, label === 'Status: Updated']
+				return responseObject [result === false, labels === 'Status: Updated']
 			}
 			else {
-				return responseObject [result === true, label === '2 weeks inactive', label === 'To Update !']
+				return responseObject [result === true, labels === '2 weeks inactive', labels === 'To Update !']
 			}
 		}
 		else if (isCommentByAssignees(moment, assignees)) {
-			return responseObject [result === false, label === 'null']
+			return responseObject [result === false, labels === 'null']
 		}	
 	}
 }	
