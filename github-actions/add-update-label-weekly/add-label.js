@@ -147,7 +147,7 @@ async function* getTimeline(issueNum) {
  */
 
 
-async function isTimelineOutdated(timeline, issueNum, assignees, labels) {
+async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
 			if (isLinkedIssue(moment, issueNum)) {
