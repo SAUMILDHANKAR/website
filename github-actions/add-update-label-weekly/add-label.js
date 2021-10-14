@@ -9,10 +9,13 @@ const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // number of days ago to check for updates
 const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
+const latestDays = 1;
 const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 const cutoffTime1 = new Date()
 cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
+const cutoffTime2 = new Date()
+cutoffTime2.setDate(cutoffTime2.getDate() - latestDays)
 
 
 
@@ -168,7 +171,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees, ...labels) {
 				return responseObject [result === true, labels === '2 weeks inactive', labels === 'To Update !']
 			}
 		}
-		else if (isCommentByAssignees(moment, assignees)) {
+		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
 			return responseObject [result === false, labels === '2 weeks inactive']
 		}	
 	}
