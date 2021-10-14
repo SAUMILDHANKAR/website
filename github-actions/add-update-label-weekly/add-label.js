@@ -160,7 +160,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees, ...labels) {
 				return responseObject [result === true, labels === 'To Update !']
 			}
 		}
-		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
+		else if (isMomentRecent(moment.created_at, cutoffTime1) === true) {
 			if (isLinkedIssue(moment, issueNum)) {
 				return responseObject [result === false, labels === 'Status: Updated']
 			}
@@ -172,7 +172,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees, ...labels) {
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
-			return responseObject [result === false, labels === '2 weeks inactive']
+			return responseObject [result === false, labels === '']
 		}	
 	}
 }	
