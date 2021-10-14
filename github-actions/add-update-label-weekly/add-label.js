@@ -169,7 +169,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees, ...labels) {
 			}
 		}
 		else if (isCommentByAssignees(moment, assignees)) {
-			return responseObject [result === false, labels === 'null']
+			return responseObject [result === false, labels === '2 weeks inactive']
 		}	
 	}
 }	
