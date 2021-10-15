@@ -170,10 +170,10 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			else {
 				return responseObject [result === true, label === '2 weeks inactive', label === 'To Update !']
 			}
-		}*/
+		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
 			return responseObject [result === false, label === '']
-		}	
+		}*/	
 	}
 }	
 
