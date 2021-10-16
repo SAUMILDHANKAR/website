@@ -322,6 +322,8 @@ function isMomentRecent(dateString, cutoffTime) {
 
 function isLinkedIssue(data, issueNum) {
 	console.log('issuenumber',issueNum)
+	console.log('body',data.source.issue.body)
+	console.log('issue',data.source.issue)
 	console.log('find linked issue', findLinkedIssue(data.source.issue.body))
   return findLinkedIssue(data.source.issue.body) == issueNum
 }
