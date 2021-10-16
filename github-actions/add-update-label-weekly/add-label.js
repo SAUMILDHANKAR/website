@@ -149,12 +149,11 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		console.log('moment', moment)
 		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
-			if (isLinkedIssue(moment, issueNum)) {
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, label: ['Status: Updated']}
 			}
-			else if (isCommentByAssignees(moment, assignees)) {
+			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				return {result: false, label: ['Status: Updated']}
 			}
 			else {
@@ -162,10 +161,10 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime1) === true) {
-			if (isLinkedIssue(moment, issueNum)) {
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, label: ['Status: Updated']}
 			}
-			else if (isCommentByAssignees(moment, assignees)) {
+			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				return {result: false, label: ['Status: Updated']}
 			}
 			else {
