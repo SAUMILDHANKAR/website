@@ -43,7 +43,7 @@ async function main({ g, c }, columnId) {
 		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
 		// 
 		
-		const responseObject = isTimelineOutdated(timeline, issueNum, assignees)
+		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, responseObject.label);  
