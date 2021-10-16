@@ -43,7 +43,7 @@ async function main({ g, c }, columnId) {
 		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
 		// 
 		
-		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
+		const responseObject = isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, responseObject.label);  
@@ -149,6 +149,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
+		console.log('moment', moment)
 		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
 			if (isLinkedIssue(moment, issueNum)) {
 				return {result: false, label: ['Status: Updated']}
@@ -322,7 +323,7 @@ function isMomentRecent(dateString, cutoffTime) {
 
 function isLinkedIssue(data, issueNum) {
 	console.log('issuenumber',issueNum)
-	console.log('source',data.source)
+	console.log('data',data)
 	console.log('find linked issue', findLinkedIssue(data.source.issue.body))
   return findLinkedIssue(data.source.issue.body) == issueNum
 }
