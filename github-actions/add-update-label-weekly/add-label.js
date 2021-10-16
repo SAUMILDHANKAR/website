@@ -44,6 +44,7 @@ async function main({ g, c }, columnId) {
 		// 
 		
 		const responseObject = isTimelineOutdated(timeline, issueNum, assignees)
+		console.log('labels', responseObject.label)
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, responseObject.label);  
@@ -321,9 +322,6 @@ function isMomentRecent(dateString, cutoffTime) {
 
 
 function isLinkedIssue(data, issueNum) {
-	console.log('issuenumber',issueNum)
-	console.log('data',data)
-	console.log('find linked issue', findLinkedIssue(data.source.issue.body))
   return findLinkedIssue(data.source.issue.body) == issueNum
 }
 function isCommentByAssignees(data, assignees) {
