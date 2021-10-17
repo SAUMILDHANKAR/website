@@ -46,7 +46,7 @@ async function main({ g, c }, columnId) {
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		console.log('response object', responseObject)
 		console.log('labels', responseObject.label)
-		if (await responseObject.result === true) {
+		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			//await removeLabels(issueNum, responseObject.label);  
 			await addLabels(issueNum, responseObject.label); 
@@ -151,7 +151,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		if (isMomentRecent(moment.created_at, cutoffTime) && (isMomentRecent(moment.created_at, cutoffTime1))) {
+		if (await isMomentRecent(moment.created_at, cutoffTime) && await (isMomentRecent(moment.created_at, cutoffTime1))) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, label: ['Status: Updated']}
 			}
