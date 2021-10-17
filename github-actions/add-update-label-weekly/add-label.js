@@ -162,7 +162,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, label: ['To Update !']}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, cutoffTime1) === true) {
+		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, label: ['Status: Updated']}
 			}
