@@ -45,16 +45,16 @@ async function main({ g, c }, columnId) {
 		
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		console.log('response object', responseObject)
-		console.log('labels', responseObject.label)
+		console.log('labels', responseObject.labels)
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			//await removeLabels(issueNum, responseObject.label);  
-			await addLabels(issueNum, responseObject.label); 
+			await addLabels(issueNum, responseObject.labels); 
 			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			//await removeLabels(issueNum, responseObject.label);
-			await addLabels(issueNum, responseObject.label);
+			await addLabels(issueNum, responseObject.labels);
 		}
 		
 		/**
@@ -153,28 +153,28 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, cutoffTime) && (isMomentRecent(moment.created_at, cutoffTime1))) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, label: ['Status: Updated']}
+				return {result: false, labels: ['Status: Updated']}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, label: ['Status: Updated']}
+				return {result: false, labels: ['Status: Updated']}
 			}
 			else {
-				return {result: true, label: ['To Update !']}
+				return {result: true, labels: ['To Update !']}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, label: ['Status: Updated']}
+				return {result: false, labels: ['Status: Updated']}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, label: ['Status: Updated']}
+				return {result: false, labels: ['Status: Updated']}
 			}
 			else {
-				return {result: true, label: ['2 weeks inactive']}
+				return {result: true, labels: ['2 weeks inactive']}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
-			return {result: false, label: ['']}
+			return {result: false, labels: ['']}
 		}	
 	}
 }	
