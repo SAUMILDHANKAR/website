@@ -288,8 +288,7 @@ async function addLabels(issueNum, ...labels) {
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: issueNum,
-      labels: labels,
-			labels[].name: labels,
+      name: labels,
     });
     console.log(`Added these labels to issue #${issueNum}: ${labels}`);
     // If an error is found, the rest of the script does not stop.
