@@ -280,13 +280,16 @@ async function removeLabels(issueNum, ...labels) {
  * @param {Array} labels an array containing the labels to add (captures the rest of the parameters)
  */
 async function addLabels(issueNum, ...labels) {
-  try {
+  console.log('labels 0', labels);
+	try {
+		console.log('labels 1', labels);
     // https://octokit.github.io/rest.js/v18#issues-add-labels
     await github.issues.addLabels({
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: issueNum,
       labels: labels,
+			labels[].name: labels,
     });
     console.log(`Added these labels to issue #${issueNum}: ${labels}`);
     // If an error is found, the rest of the script does not stop.
