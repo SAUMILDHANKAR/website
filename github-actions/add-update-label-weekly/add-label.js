@@ -48,17 +48,10 @@ async function main({ g, c }, columnId) {
 			await removeLabels(issueNum, responseObject.labels);  
 			await addLabels(issueNum, responseObject.labels); 
 			//await postComment(issueNum, assignees);
-			console.log(isMomentRecent(moment.created_at, cutoffTime));
-			console.log(isMomentRecent(moment.created_at, cutoffTime1));
-			console.log(isMomentRecent(moment.created_at, cutoffTime2));
-
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, responseObject.labels);
 			await addLabels(issueNum, responseObject.labels);
-			console.log(isMomentRecent(moment.created_at, cutoffTime));
-			console.log(isMomentRecent(moment.created_at, cutoffTime1));
-			console.log(isMomentRecent(moment.created_at, cutoffTime2));
 		}
 		
 		/**
@@ -155,6 +148,9 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
+		console.log(isMomentRecent(moment.created_at, cutoffTime));
+		console.log(isMomentRecent(moment.created_at, cutoffTime1));
+		console.log(isMomentRecent(moment.created_at, cutoffTime2));
 		if (isMomentRecent(moment.created_at, cutoffTime) && (isMomentRecent(moment.created_at, cutoffTime1))) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
