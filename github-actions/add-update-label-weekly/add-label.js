@@ -48,10 +48,17 @@ async function main({ g, c }, columnId) {
 			await removeLabels(issueNum, responseObject.labels);  
 			await addLabels(issueNum, responseObject.labels); 
 			//await postComment(issueNum, assignees);
+			console.log(isMomentRecent(moment.created_at, cutoffTime));
+			console.log(isMomentRecent(moment.created_at, cutoffTime1));
+			console.log(isMomentRecent(moment.created_at, cutoffTime2));
+
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, responseObject.labels);
 			await addLabels(issueNum, responseObject.labels);
+			console.log(isMomentRecent(moment.created_at, cutoffTime));
+			console.log(isMomentRecent(moment.created_at, cutoffTime1));
+			console.log(isMomentRecent(moment.created_at, cutoffTime2));
 		}
 		
 		/**
