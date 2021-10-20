@@ -44,16 +44,14 @@ async function main({ g, c }, columnId) {
 		// 
 		
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
-		console.log('response object', responseObject)
-		console.log('labels', responseObject.labels)
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, responseObject.label);  
+			await removeLabels(issueNum, responseObject.labels);  
 			await addLabels(issueNum, responseObject.labels); 
 			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
-			await removeLabels(issueNum, responseObject.label);
+			await removeLabels(issueNum, responseObject.labels);
 			await addLabels(issueNum, responseObject.labels);
 		}
 		
@@ -280,9 +278,7 @@ async function removeLabels(issueNum, ...labels) {
  * @param {Array} labels an array containing the labels to add (captures the rest of the parameters)
  */
 async function addLabels(issueNum, ...labels) {
-  console.log('labels 0', labels);
 	try {
-		console.log('labels 1', labels);
     // https://octokit.github.io/rest.js/v18#issues-add-labels
     await github.issues.addLabels({
       owner: context.repo.owner,
