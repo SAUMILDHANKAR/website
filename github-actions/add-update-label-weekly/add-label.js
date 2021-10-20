@@ -153,10 +153,10 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, cutoffTime) && (isMomentRecent(moment.created_at, cutoffTime1))) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, labels: ['Status: Updated']}
+				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, labels: ['Status: Updated']}
+				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
 				return {result: true, labels: toUpdateLabel}
@@ -164,17 +164,17 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, labels: ['Status: Updated']}
+				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, labels: ['Status: Updated']}
+				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
 				return {result: true, labels: inactiveLabel}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
-			return {result: false, labels: ['']}
+			return {result: false, labels: }
 		}	
 	}
 }	
