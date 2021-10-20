@@ -162,20 +162,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
-			//console.log(isMomentRecent(moment.created_at, threeDayCutoffTime));
-			//console.log(isMomentRecent(moment.created_at, fourteenDayCutoffTime));
-			//console.log(isMomentRecent(moment.created_at, zeroDayCutoffTime));
-			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, labels: statusUpdatedLabel}
-			}
-			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, labels: statusUpdatedLabel}
-			}
-			else {
-				return {result: true, labels: toUpdateLabel}
-			}
-		}
 		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
@@ -185,6 +171,17 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			else {
 				return {result: true, labels: inactiveLabel}
+			}
+		}
+		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			else {
+				return {result: true, labels: toUpdateLabel}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
