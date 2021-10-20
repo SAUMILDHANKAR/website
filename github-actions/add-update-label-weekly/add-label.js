@@ -159,7 +159,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: ['Status: Updated']}
 			}
 			else {
-				return {result: true, labels: ['To Update !']}
+				return {result: true, labels: toUpdateLabel}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime1)) {
@@ -170,7 +170,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: ['Status: Updated']}
 			}
 			else {
-				return {result: true, labels: ['2 weeks inactive']}
+				return {result: true, labels: inactiveLabel}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
@@ -288,7 +288,7 @@ async function addLabels(issueNum, ...labels) {
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: issueNum,
-      name: labels,
+      labels: labels,
     });
     console.log(`Added these labels to issue #${issueNum}: ${labels}`);
     // If an error is found, the rest of the script does not stop.
