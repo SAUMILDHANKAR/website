@@ -48,12 +48,12 @@ async function main({ g, c }, columnId) {
 		console.log('labels', responseObject.labels)
 		if (responseObject.result === true) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			//await removeLabels(issueNum, responseObject.label);  
+			await removeLabels(issueNum, responseObject.label);  
 			await addLabels(issueNum, responseObject.labels); 
 			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
-			//await removeLabels(issueNum, responseObject.label);
+			await removeLabels(issueNum, responseObject.label);
 			await addLabels(issueNum, responseObject.labels);
 		}
 		
@@ -174,7 +174,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 		}
 		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
-			return {result: false, labels: }
+			return {result: false, labels: statusUpdatedLabel}
 		}	
 	}
 }	
