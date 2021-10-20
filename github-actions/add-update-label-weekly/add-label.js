@@ -148,7 +148,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		if (isMomentRecent(moment.created_at, threeDayCutoffTime) && (isMomentRecent(moment.created_at, fourteenDayCutoffTime))) {
+		/**if (isMomentRecent(moment.created_at, threeDayCutoffTime) && (isMomentRecent(moment.created_at, fourteenDayCutoffTime))) {
 			//console.log(isMomentRecent(moment.created_at, threeDayCutoffTime));
 			//console.log(isMomentRecent(moment.created_at, fourteenDayCutoffTime));
 			//console.log(isMomentRecent(moment.created_at, zeroDayCutoffTime));
@@ -162,7 +162,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
+		else*/ if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
