@@ -170,7 +170,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
-				return {result: true, labels: (inactiveLabel, toUpdateLabel)}
+				return {result: true, labels: inactiveLabel toUpdateLabel}
 			}
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
