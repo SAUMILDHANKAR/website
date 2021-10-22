@@ -31,35 +31,36 @@ async function main({ g, c }, columnId) {
 	// Retrieve all issue numbers from a column
 	const issueNums = getIssueNumsFromColumn(columnId);
 	for await (let issueNum of issueNums) {
-	const timeline = getTimeline(issueNum);
-	const assignees = await getAssignees(issueNum);
-	// Error catching.
-	if (assignees.length === 0) {
-	  console.log(`Assignee not found, skipping issue #${issueNum}`)
-	  continue
-	}
-	// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
+		const timeline = getTimeline(issueNum);
+		const assignees = await getAssignees(issueNum);
+		// Error catching.
+		if (assignees.length === 0) {
+		  console.log(`Assignee not found, skipping issue #${issueNum}`)
+		  continue
+		}
+		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
 
-	const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
-	if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
-		console.log(`Going to ask for an update now for issue #${issueNum}`);
-		await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
-		await addLabels(issueNum, responseObject.labels); 
-		await postComment(issueNum, assignees);
-	} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
-		await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-		await addLabels(issueNum, responseObject.labels);
-		await postComment(issueNum, assignees);
-	} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
-		await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
-		await addLabels(issueNum, responseObject.labels);
-	} else {
-		console.log(`No updates needed for issue #${issueNum}`);
-		await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-		await addLabels(issueNum, statusUpdatedLabel);
-	}
-}	
-		
+		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
+		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
+			console.log(`Going to ask for an update now for issue #${issueNum}`);
+			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
+			await addLabels(issueNum, responseObject.labels); 
+			await postComment(issueNum, assignees);
+		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
+			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			await addLabels(issueNum, responseObject.labels);
+			await postComment(issueNum, assignees);
+		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
+			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
+			await addLabels(issueNum, responseObject.labels);
+		} else {
+			console.log(`No updates needed for issue #${issueNum}`);
+			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			await addLabels(issueNum, statusUpdatedLabel);
+		}
+	}	
+}
+
 /**
  * Generator that returns issue numbers from cards in a column.
  * @param {Number} columnId the id of the column in GitHub's database
