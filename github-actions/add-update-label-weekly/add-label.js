@@ -49,7 +49,7 @@ async function main({ g, c }, columnId) {
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
-			await postComment(issueNum, assignees);
+			//await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
 			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
