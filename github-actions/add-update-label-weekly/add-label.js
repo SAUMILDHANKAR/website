@@ -237,7 +237,7 @@ function isLinkedIssue(data, issueNum) {
 function isCommentByAssignees(data, assignees) {
   return assignees.includes(data.actor.login)
 }
-function getAssignees(issueNum) {
+async function getAssignees(issueNum) {
   try {
     const results = await github.issues.get({
       owner: context.repo.owner,
@@ -252,7 +252,7 @@ function getAssignees(issueNum) {
     return null
   }
 }
-async function filterForAssigneesLogins(data) {
+function filterForAssigneesLogins(data) {
   logins = [];
   for (let item of data) {
     logins.push(item.login);
