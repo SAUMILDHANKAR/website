@@ -46,7 +46,7 @@ async function main({ g, c }, columnId) {
 			console.log(postComment(issueNum, assignees));
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
-			postComment(issueNum, assignees);
+			await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
@@ -205,8 +205,8 @@ async function addLabels(issueNum, ...labels) {
 }
 async function postComment(issueNum, assignees) {
   try {
-    const assigneeString = createAssigneeString(assignees);
-    const instructions = formatComment(assigneeString);
+    const assigneeString = await createAssigneeString(assignees);
+    const instructions = await formatComment(assigneeString);
     await github.issues.createComment({
       owner: context.repo.owner,
       repo: context.repo.repo,
@@ -259,14 +259,14 @@ function filterForAssigneesLogins(data) {
   }
   return logins
 }
-function createAssigneeString(assignees) {
+async function createAssigneeString(assignees) {
   const assigneeString = [];
   for (let assignee of assignees) {
     assigneeString.push(`@${assignee}`);
   }
   return assigneeString.join(', ')
 }
-function formatComment(assignees) {
+async function formatComment(assignees) {
   const path = './github-actions/add-update-label-weekly/update-instructions-template.md'
   const text = fs.readFileSync(path).toString('utf-8');
   const options = {
