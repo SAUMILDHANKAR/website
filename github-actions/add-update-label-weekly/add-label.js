@@ -205,8 +205,8 @@ async function addLabels(issueNum, ...labels) {
 }
 async function postComment(issueNum, assignees) {
   try {
-    const assigneeString = await createAssigneeString(assignees);
-    const instructions = await formatComment(assigneeString);
+    const assigneeString = createAssigneeString(assignees);
+    const instructions = formatComment(assigneeString);
     await github.issues.createComment({
       owner: context.repo.owner,
       repo: context.repo.repo,
@@ -237,7 +237,7 @@ function isLinkedIssue(data, issueNum) {
 function isCommentByAssignees(data, assignees) {
   return assignees.includes(data.actor.login)
 }
-async function getAssignees(issueNum) {
+function getAssignees(issueNum) {
   try {
     const results = await github.issues.get({
       owner: context.repo.owner,
@@ -245,7 +245,7 @@ async function getAssignees(issueNum) {
       issue_number: issueNum,
     });
     const assigneesData = results.data.assignees;
-    assigneesLogins = await filterForAssigneesLogins(assigneesData);
+    assigneesLogins = filterForAssigneesLogins(assigneesData);
     return assigneesLogins
   } catch (err) {
     console.error(`Failed request to get assignee from issue: #${issueNum}`)
@@ -259,14 +259,14 @@ async function filterForAssigneesLogins(data) {
   }
   return logins
 }
-async function createAssigneeString(assignees) {
+function createAssigneeString(assignees) {
   const assigneeString = [];
   for (let assignee of assignees) {
     assigneeString.push(`@${assignee}`);
   }
   return assigneeString.join(', ')
 }
-async function formatComment(assignees) {
+function formatComment(assignees) {
   const path = './github-actions/add-update-label-weekly/update-instructions-template.md'
   const text = fs.readFileSync(path).toString('utf-8');
   const options = {
