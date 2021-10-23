@@ -234,11 +234,9 @@ function isMomentRecent(dateString, cutoffTime) {
 function isLinkedIssue(data, issueNum) {
   return findLinkedIssue(data.source.issue.body) == issueNum
 }
-
 function isCommentByAssignees(data, assignees) {
   return assignees.includes(data.actor.login)
 }
-
 async function getAssignees(issueNum) {
   try {
     const results = await github.issues.get({
@@ -254,7 +252,6 @@ async function getAssignees(issueNum) {
     return null
   }
 }
-
 function filterForAssigneesLogins(data) {
   logins = [];
   for (let item of data) {
@@ -262,7 +259,6 @@ function filterForAssigneesLogins(data) {
   }
   return logins
 }
-
 function createAssigneeString(assignees) {
   const assigneeString = [];
   for (let assignee of assignees) {
@@ -270,7 +266,6 @@ function createAssigneeString(assignees) {
   }
   return assigneeString.join(', ')
 }
-
 function formatComment(assignees) {
   const path = './github-actions/add-update-label-weekly/update-instructions-template.md'
   const text = fs.readFileSync(path).toString('utf-8');
@@ -280,10 +275,9 @@ function formatComment(assignees) {
     timeZone: 'America/Los_Angeles',
     timeZoneName: 'short',
   }
-
   const cutoffTimeString = cutoffTime.toLocaleString('en-US', options);
   let completedInstuctions = text.replace('${assignees}', assignees).replace('${cutoffTime}', cutoffTimeString);
   return completedInstuctions
 }
-
+		
 module.exports = main
