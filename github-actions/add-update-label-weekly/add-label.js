@@ -245,14 +245,14 @@ async function getAssignees(issueNum) {
       issue_number: issueNum,
     });
     const assigneesData = results.data.assignees;
-    assigneesLogins = filterForAssigneesLogins(assigneesData);
+    assigneesLogins = await filterForAssigneesLogins(assigneesData);
     return assigneesLogins
   } catch (err) {
     console.error(`Failed request to get assignee from issue: #${issueNum}`)
     return null
   }
 }
-function filterForAssigneesLogins(data) {
+async function filterForAssigneesLogins(data) {
   logins = [];
   for (let item of data) {
     logins.push(item.login);
