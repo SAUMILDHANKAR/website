@@ -53,6 +53,7 @@ async function main({ g, c }, columnId) {
 		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
 			await removeLabels(issueNum, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
+			await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, responseObject.labels);
