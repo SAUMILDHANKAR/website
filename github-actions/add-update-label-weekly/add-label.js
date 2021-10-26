@@ -314,10 +314,10 @@ async function postComment(issueNum, assignees) {
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-function isMomentRecent(dateString, cutoffTime) {
+function isMomentRecent(dateString, fourteenDayCutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= cutoffTime) {
+  if (dateStringObj <= fourteenDayCutoffTime) {
     return true
   } else {
     return false
