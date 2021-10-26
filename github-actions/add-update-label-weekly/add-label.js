@@ -10,12 +10,13 @@ const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // number of days ago to check for updates
 const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
 const latestDays = 0;
-const threeDayCutoffTime = new Date()
-threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
-const fourteenDayCutoffTime = new Date()
-fourteenDayCutoffTime.setDate(fourteenDayCutoffTime.getDate() - inactiveUpdatedByDays)
-const zeroDayCutoffTime = new Date()
-zeroDayCutoffTime.setDate(zeroDayCutoffTime.getDate() - latestDays)
+const cutoffTime = new Date()
+cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
+const cutoffTime1 = new Date()
+cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
+const cutoffTime2 = new Date()
+cutoffTime2.setDate(cutoffTime2.getDate() - latestDays)
+
 
 
 /**
@@ -49,10 +50,6 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel);  
 			await addLabels(issueNum, responseObject.labels); 
-			await postComment(issueNum, assignees);
-		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
-			await removeLabels(issueNum, statusUpdatedLabel);
-			await addLabels(issueNum, responseObject.labels);
 			await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
@@ -154,18 +151,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
-			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, labels: ['Status: Updated']}
-			}
-			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, labels: ['Status: Updated']}
-			}
-			else {
-				return {result: true, labels: inactiveLabel}
-			}
-		}
-		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
+		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: ['Status: Updated']}
 			}
@@ -176,8 +162,19 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			return {result: false, labels: statusUpdateLabel}
+		else if (isMomentRecent(moment.created_at, cutoffTime1) === true) {
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				return {result: false, labels: ['Status: Updated']}
+			}
+			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+				return {result: false, labels: ['Status: Updated']}
+			}
+			else {
+				return {result: true, labels: statusUpdatedLabel}
+			}
+		}
+		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
+			return {result: false, labels: ['']}
 		}	
 	}
 }	
@@ -314,10 +311,10 @@ async function postComment(issueNum, assignees) {
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-function isMomentRecent(dateString, fourteenDayCutoffTime) {
+function isMomentRecent(dateString, cutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= fourteenDayCutoffTime) {
+  if (dateStringObj <= cutoffTime) {
     return true
   } else {
     return false
