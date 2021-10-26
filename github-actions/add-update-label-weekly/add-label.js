@@ -10,13 +10,12 @@ const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // number of days ago to check for updates
 const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
 const latestDays = 0;
-const cutoffTime = new Date()
-cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
-const cutoffTime1 = new Date()
-cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
-const cutoffTime2 = new Date()
-cutoffTime2.setDate(cutoffTime2.getDate() - latestDays)
-
+const threeDayCutoffTime = new Date()
+threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
+const fourteenDayCutoffTime = new Date()
+fourteenDayCutoffTime.setDate(fourteenDayCutoffTime.getDate() - inactiveUpdatedByDays)
+const zeroDayCutoffTime = new Date()
+zeroDayCutoffTime.setDate(zeroDayCutoffTime.getDate() - latestDays)
 
 
 /**
@@ -151,7 +150,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		if (isMomentRecent(moment.created_at, cutoffTime) === true && isMomentRecent(moment.created_at, cutoffTime1) === false) {
+		if (isMomentRecent(moment.created_at, threeDayCutoffTime) === true && isMomentRecent(moment.created_at, fourteenDayCutoffTime) === false) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: ['Status: Updated']}
 			}
@@ -162,7 +161,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, cutoffTime1) === true) {
+		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime) === true) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: ['Status: Updated']}
 			}
@@ -173,7 +172,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: statusUpdatedLabel}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
+		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			return {result: false, labels: ['']}
 		}	
 	}
