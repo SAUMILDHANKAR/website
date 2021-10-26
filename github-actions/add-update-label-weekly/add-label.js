@@ -48,7 +48,7 @@ async function main({ g, c }, columnId) {
 		//console.log('labels', responseObject.label)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, responseObject.labels);  
+			await removeLabels(issueNum, statusUpdatedLabel);  
 			await addLabels(issueNum, responseObject.labels); 
 			await postComment(issueNum, assignees);
 		} else {
