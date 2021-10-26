@@ -9,7 +9,7 @@ const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // number of days ago to check for updates
 const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
-const latestDays = 1;
+const latestDays = 0;
 const cutoffTime = new Date()
 cutoffTime.setDate(cutoffTime.getDate() - updatedByDays)
 const cutoffTime1 = new Date()
