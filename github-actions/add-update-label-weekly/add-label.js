@@ -175,8 +175,8 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: statusUpdatedLabel}
 			}
 		}
-		(isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			return {result: false, labels: ['']}
+		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
+			return {result: false, labels: statusUpdateLabel}
 		}	
 	}
 }	
