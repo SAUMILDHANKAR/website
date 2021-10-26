@@ -7,8 +7,8 @@ var context;
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
-const updatedByDays = 3; // number of days ago to check for updates
-const inactiveUpdatedByDays = 14; // number of days ago to check for comment by assignee (for 2 week inactive label)
+const updatedByDays = 3; // number of days ago to check for to update label
+const inactiveUpdatedByDays = 14; // number of days ago to check for inactive label
 const latestDays = 0;
 const threeDayCutoffTime = new Date()
 threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
@@ -16,6 +16,7 @@ const fourteenDayCutoffTime = new Date()
 fourteenDayCutoffTime.setDate(fourteenDayCutoffTime.getDate() - inactiveUpdatedByDays)
 const zeroDayCutoffTime = new Date()
 zeroDayCutoffTime.setDate(zeroDayCutoffTime.getDate() - latestDays)
+
 
 
 /**
@@ -30,54 +31,36 @@ async function main({ g, c }, columnId) {
 	// Retrieve all issue numbers from a column
 	const issueNums = getIssueNumsFromColumn(columnId);
 	for await (let issueNum of issueNums) {
-	const timeline = getTimeline(issueNum);
-	const assignees = await getAssignees(issueNum);
-	// Error catching.
-	//console.log(`Assignee: ${assignees}`)	
-	if (assignees.length === 0) {
-	  console.log(`Assignee not found, skipping issue #${issueNum}`)
-	  continue
-	}
-		// Adds label if the issue's timeline indicates the issue is outdated. 
-		// Note: inactive label is added as well if the timeline indicates the issue is inactive. Further, the if else structure ensures addLabels commands are limited.
-		// 
-		
+		const timeline = getTimeline(issueNum);
+		const assignees = await getAssignees(issueNum);
+		// Error catching.
+		if (assignees.length === 0) {
+		  console.log(`Assignee not found, skipping issue #${issueNum}`)
+		  continue
+		}
+		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
+
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
-		//console.log('response object', responseObject)
-		//console.log('labels', responseObject.label)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, statusUpdatedLabel);  
+			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
 			await postComment(issueNum, assignees);
-		} else {
-			console.log(`No updates needed for issue #${issueNum}`);
-			await removeLabels(issueNum, responseObject.labels);
+		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
+			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
-		}
-		
-		/**
-		if (await isTimelineOutdated(timeline, issueNum, assignees)) {
-			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, statusUpdatedLabel, toUpdateLabel);
 			await postComment(issueNum, assignees);
-			/**if (await isTimelineInactive(timeline, issueNum, assignees)) {
-				
-				await addLabels(issueNum, inactiveLabel, toUpdateLabel);
-			} else {
-				await addLabels(issueNum, toUpdateLabel);
-			}
-			*/
-		/**
+		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
+			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
+			await addLabels(issueNum, responseObject.labels);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, statusUpdatedLabel);
 		}
-		*/
 	}
-}
-
+}	
+		
 /**
  * Generator that returns issue numbers from cards in a column.
  * @param {Number} columnId the id of the column in GitHub's database
@@ -150,107 +133,33 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		if (isMomentRecent(moment.created_at, threeDayCutoffTime) === true && isMomentRecent(moment.created_at, fourteenDayCutoffTime) === false) {
+		if (isFourteenDayMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, labels: ['Status: Updated']}
+				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, labels: ['Status: Updated']}
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			else {
+				return {result: true, labels: inactiveLabel}
+			}
+		}
+		else if (isThreeDayMomentRecent(moment.created_at, threeDayCutoffTime)) {
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
-		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime) === true) {
-			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				return {result: false, labels: ['Status: Updated']}
-			}
-			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return {result: false, labels: ['Status: Updated']}
-			}
-			else {
-				return {result: true, labels: statusUpdatedLabel}
-			}
-		}
-		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			return {result: false, labels: ['']}
+		else if (isZeroDayMomentRecent(moment.created_at, zeroDayCutoffTime)) {
+			return {result: false, labels: statusUpdatedLabel}
 		}	
 	}
 }	
-
-/**	  
-  if (latest comment is > cutofftime = 3 days && comment < 2 weeks) 
-	if (is linked)
-		return object {result:false, labels: [status updated]}
-	else if (is commented by assignee)
-		return object {result:false, labels: [status updated]}
-	else 
-		return object {result:true, labels: [to update]}
-    else if (latest comment is > 2 weeeks)	
-    	if (is linked)
-		return object {result:false, labels: [status updated]}
-	else if (is commented by assignee)
-		return object {result:false, labels: [status updated]}
-    	else 
-		return object {result:true, labels: [2 week inactive, to update]}
-		
-    else (if assigned recently 5 days)
-		return object false and no label
-	
-*/
-
-/**
-async function isTimelineOutdated(timeline, issueNum, assignees) {
-  for await (let moment of timeline) {
-    
-    if (isMomentRecent(moment.created_at, cutoffTime)) {
-      if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-        return false
-      } else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-        return false
-      }
-    } 
-  }
-  return true
-}
-*/
-/**
- * Assesses whether the timeline is inactive.
- * Note: Inactive means that the assignee did not make a comment within 14 days (cutoffTime1 derived from inactiveUpdatedByDays1) and there is no linked PR in last 3 days ((cutoffTime2 derived from inactiveUpdatedByDays2)
- */
-/**
-async function isTimelineInactive(timeline, issueNum, assignees) {
-  const cutoffTime1 = new Date()
-  cutoffTime1.setDate(cutoffTime1.getDate() - inactiveUpdatedByDays)
-  const cutoffTime2 = new Date()
-  cutoffTime2.setDate(cutoffTime2.getDate() - updatedByDays)
-	console.log(timeline)
-  	for await (let moment of timeline) {
-		console.log('moment:', moment)
-		console.log(`function return: ${isMomentRecent(moment.created_at, cutoffTime2)}`)
-		if (isMomentRecent(moment.created_at, cutoffTime1)) {
-			console.log('more than 14 days')
-			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return false
-			} 
-		}
-		else if (isMomentRecent(moment.created_at, cutoffTime2)) {
-			console.log('more than 3 days')
-			if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				return false
-			} 
-			
-			return false
-		}
-		else {
-			console.log('no comment')
-			return false
-		}
-	}
-  return true
-}
-*/
-
 
 /**
  * Removes labels from a specified issue
@@ -279,7 +188,7 @@ async function removeLabels(issueNum, ...labels) {
  * @param {Array} labels an array containing the labels to add (captures the rest of the parameters)
  */
 async function addLabels(issueNum, ...labels) {
-  try {
+	try {
     // https://octokit.github.io/rest.js/v18#issues-add-labels
     await github.issues.addLabels({
       owner: context.repo.owner,
@@ -310,10 +219,30 @@ async function postComment(issueNum, assignees) {
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-function isMomentRecent(dateString, cutoffTime) {
+function isFourteenDayMomentRecent(dateString, fourteenDayCutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= cutoffTime) {
+  if (dateStringObj >= fourteenDayCutoffTime) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function isThreeDayMomentRecent(dateString, threeDayCutoffTime) {
+  const dateStringObj = new Date(dateString);
+
+  if (dateStringObj >= threeDayCutoffTime) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function isZeroDayMomentRecent(dateString, zeroDayCutoffTime) {
+  const dateStringObj = new Date(dateString);
+
+  if (dateStringObj >= zeroDayCutoffTime) {
     return true
   } else {
     return false
@@ -369,4 +298,5 @@ function formatComment(assignees) {
   let completedInstuctions = text.replace('${assignees}', assignees).replace('${cutoffTime}', cutoffTimeString);
   return completedInstuctions
 }
+		
 module.exports = main
