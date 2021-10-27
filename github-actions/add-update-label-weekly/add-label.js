@@ -222,7 +222,7 @@ async function postComment(issueNum, assignees) {
 function isFourteenDayMomentRecent(dateString, fourteenDayCutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= fourteenDayCutoffTime) {
+  if (dateStringObj >= fourteenDayCutoffTime) {
     return true
   } else {
     return false
@@ -232,7 +232,7 @@ function isFourteenDayMomentRecent(dateString, fourteenDayCutoffTime) {
 function isThreeDayMomentRecent(dateString, threeDayCutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= threeDayCutoffTime) {
+  if (dateStringObj >= threeDayCutoffTime) {
     return true
   } else {
     return false
@@ -242,7 +242,7 @@ function isThreeDayMomentRecent(dateString, threeDayCutoffTime) {
 function isZeroDayMomentRecent(dateString, zeroDayCutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= zeroDayCutoffTime) {
+  if (dateStringObj >= zeroDayCutoffTime) {
     return true
   } else {
     return false
