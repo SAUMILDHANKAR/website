@@ -134,8 +134,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		if (isFourteenDayMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
-			console.log('14',isFourteenDayMomentRecent(moment.created_at, fourteenDayCutoffTime));
+		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14', moment.created_at);
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
@@ -147,8 +146,8 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: inactiveLabel}
 			}
 		}
-		else if (isThreeDayMomentRecent(moment.created_at, threeDayCutoffTime)) {
-			console.log('3',isFourteenDayMomentRecent(moment.created_at, threeDayCutoffTime));
+		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
+			console.log('3', moment.created_at);
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
@@ -159,7 +158,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
-		else if (isZeroDayMomentRecent(moment.created_at, zeroDayCutoffTime)) {
+		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			return {result: false, labels: statusUpdatedLabel}
 		}	
 	}
@@ -223,30 +222,10 @@ async function postComment(issueNum, assignees) {
 /***********************
 *** HELPER FUNCTIONS ***
 ***********************/
-function isFourteenDayMomentRecent(dateString, fourteenDayCutoffTime) {
+function isMomentRecent(dateString, cutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj >= fourteenDayCutoffTime) {
-    return true
-  } else {
-    return false
-  }
-}
-
-function isThreeDayMomentRecent(dateString, threeDayCutoffTime) {
-  const dateStringObj = new Date(dateString);
-
-  if (dateStringObj >= threeDayCutoffTime) {
-    return true
-  } else {
-    return false
-  }
-}
-
-function isZeroDayMomentRecent(dateString, zeroDayCutoffTime) {
-  const dateStringObj = new Date(dateString);
-
-  if (dateStringObj >= zeroDayCutoffTime) {
+  if (dateStringObj <= cutoffTime) {
     return true
   } else {
     return false
