@@ -216,6 +216,7 @@ async function postComment(issueNum, assignees) {
       body: instructions,
     });
   } catch (err) {
+    console.log(err);
     console.error(`Could not post a comment for issue #${issueNum}`);
   }
 }
