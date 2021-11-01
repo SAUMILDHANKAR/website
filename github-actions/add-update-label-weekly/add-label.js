@@ -41,27 +41,19 @@ async function main({ g, c }, columnId) {
 		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
-			console.log(moment.event == 'commented');
-			console.log(isCommentByAssignees(moment, assignees));
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
 			await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
-			console.log(moment.event == 'commented');
-			console.log(isCommentByAssignees(moment, assignees));
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
 		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
-			console.log(moment.event == 'commented');
-			console.log(isCommentByAssignees(moment, assignees));
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
 			await postComment(issueNum, assignees);
 		} else {
-			console.log(moment.event == 'commented');
-			console.log(isCommentByAssignees(moment, assignees));
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, statusUpdatedLabel);
@@ -149,6 +141,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
+			console.log(moment.event == 'commented');
+			console.log(isCommentByAssignees(moment, assignees));
+				
 				return {result: true, labels: inactiveLabel}
 			}
 		}
@@ -160,6 +155,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
+			console.log(moment.event == 'commented');
+			console.log(isCommentByAssignees(moment, assignees));
+				
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
