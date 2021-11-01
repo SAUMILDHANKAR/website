@@ -145,7 +145,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
-			console.log('3', moment.created_at);
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
