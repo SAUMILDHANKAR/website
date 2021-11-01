@@ -143,7 +143,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			else {
 			console.log(moment.event == 'commented');
 			console.log(isCommentByAssignees(moment, assignees));
-				
+			console.log(moment);	
 				return {result: true, labels: inactiveLabel}
 			}
 		}
@@ -157,7 +157,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			else {
 			console.log(moment.event == 'commented');
 			console.log(isCommentByAssignees(moment, assignees));
-				
+			console.log(moment);	
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
