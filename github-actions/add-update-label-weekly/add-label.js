@@ -44,7 +44,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
-			await postComment(issueNum, assignees);
+			//await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
@@ -52,7 +52,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
-			await postComment(issueNum, assignees);
+			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
@@ -133,6 +133,7 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
+			console.log(moment.event);
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
@@ -141,7 +142,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
-			console.log(moment.event == 'commented');
 			console.log(isCommentByAssignees(moment, assignees));
 			console.log(moment.event);	
 				return {result: true, labels: inactiveLabel}
@@ -155,7 +155,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
-			console.log(moment.event = 'commented');
 			console.log(isCommentByAssignees(moment, assignees));
 			console.log(moment.event);	
 				return {result: true, labels: toUpdateLabel}
