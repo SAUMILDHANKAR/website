@@ -31,6 +31,7 @@ async function main({ g, c }, columnId) {
 	const issueNums = getIssueNumsFromColumn(columnId);
 	for await (let issueNum of issueNums) {
 		const timeline = getTimeline(issueNum);
+		console.log(timeline);
 		const assignees = await getAssignees(issueNum);
 		// Error catching.
 		if (assignees.length === 0) {
@@ -108,7 +109,7 @@ async function* getTimeline(issueNum) {
         per_page: 100,
         page: page,
       });
-	    console.log(results);
+	    //console.log(results);
       if (results.data.length) {
         yield* results.data
       } else {
