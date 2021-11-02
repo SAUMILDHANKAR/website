@@ -31,7 +31,6 @@ async function main({ g, c }, columnId) {
 	const issueNums = getIssueNumsFromColumn(columnId);
 	for await (let issueNum of issueNums) {
 		const timeline = getTimeline(issueNum);
-		console.log(timeline);
 		const assignees = await getAssignees(issueNum);
 		// Error catching.
 		if (assignees.length === 0) {
@@ -135,8 +134,6 @@ async function* getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let moment of timeline) {
-		//console.log(moment);
-		//console.log(getTimeline());
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
