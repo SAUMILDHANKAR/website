@@ -109,7 +109,7 @@ async function* getTimeline(issueNum) {
         per_page: 100,
         page: page,
       });
-	    //console.log(results);
+	    console.log(results);
       if (results.data.length) {
         yield* results.data
       } else {
