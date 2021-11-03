@@ -44,7 +44,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
-			//await postComment(issueNum, assignees);
+			await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
@@ -52,7 +52,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
-			//await postComment(issueNum, assignees);
+			await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
@@ -108,7 +108,6 @@ async function* getTimeline(issueNum) {
         per_page: 100,
         page: page,
       });
-	    console.log(results);
       if (results.data.length) {
         yield* results.data
       } else {
@@ -142,8 +141,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
-			console.log(isCommentByAssignees(moment, assignees));
-			console.log(moment.event);	
 				return {result: true, labels: inactiveLabel}
 			}
 		}
@@ -155,8 +152,6 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else {
-			console.log(isCommentByAssignees(moment, assignees));
-			console.log(moment.event);	
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
