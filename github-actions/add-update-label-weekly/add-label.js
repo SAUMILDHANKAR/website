@@ -145,7 +145,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if  (index === timelineArray.length-1) {
+			else if  (index === timeline.length-1) {
 				return {result: true, labels: inactiveLabel}
 			}
 		}
@@ -161,7 +161,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timelineArray.length-1) {
+			else if (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
