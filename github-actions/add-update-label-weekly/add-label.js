@@ -133,7 +133,7 @@ async function* getTimeline(issueNum) {
  */
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
-	for await (let moment of timeline) {
+	for await (let [index, moment] of timeline) {
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14 days: ',moment);
 			console.log('event is', moment.event);
@@ -145,7 +145,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else {
+			else if  (index === timeline.length-1) {
 				return {result: true, labels: inactiveLabel}
 			}
 		}
@@ -161,7 +161,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else {
+			else if (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
