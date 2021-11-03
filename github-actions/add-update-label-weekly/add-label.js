@@ -42,7 +42,6 @@ async function main({ g, c }, columnId) {
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
 			await postComment(issueNum, assignees);
@@ -133,7 +132,7 @@ async function* getTimeline(issueNum) {
  */
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
-	const timelineArray = Array.from(timeline);
+	const timelineArray = Array.from(timeline());
 	for await (let [index, moment] of timelineArray.entries()) {
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14 days: ',moment);
