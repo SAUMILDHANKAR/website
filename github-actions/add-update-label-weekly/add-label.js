@@ -134,7 +134,6 @@ async function getTimeline(issueNum) {
         issue_number: issueNum,
       });
       if (results.data.length) {
-	      console.log(results.data);
         return results.data
       } else {
         return
@@ -156,7 +155,8 @@ async function getTimeline(issueNum) {
  */
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
-	for await (let moment of timeline) {
+	for await (let [index, moment] of timeline.entries()) {
+		console.log(`${index} of ${timeline.length-1}`);
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14 days: ',moment);
 			console.log('event is', moment.event);
@@ -168,9 +168,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			/**else if  (index === timeline.length-1) {
+			else if  (index === timeline.length-1) {
 				return {result: true, labels: inactiveLabel}
-			}*/
+			}
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
 			console.log('3 days: ', moment);
@@ -184,9 +184,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			/**else if (index === timeline.length-1) {
+			else if (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
-			}*/
+			}
 		}
 		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			console.log(`No updates needed for issue #${issueNum}`);
