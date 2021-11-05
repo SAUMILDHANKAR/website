@@ -30,7 +30,8 @@ async function main({ g, c }, columnId) {
 	// Retrieve all issue numbers from a column
 	const issueNums = getIssueNumsFromColumn(columnId);
 	for await (let issueNum of issueNums) {
-		const timeline = getTimeline(issueNum);
+		const timeline = Array.from(getTimeline(issueNum));
+		console.log(typeof timeline);
 		const assignees = await getAssignees(issueNum);
 		// Error catching.
 		if (assignees.length === 0) {
@@ -132,8 +133,8 @@ async function* getTimeline(issueNum) {
  */
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
-	const timelineArray = Array.from(timeline);
-	for await (let [index, moment] of timelineArray.entries()) {
+	//const timelineArray = Array.from(timeline);
+	for await (let [index, moment] of timeline.entries()) {
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14 days: ',moment);
 			console.log('event is', moment.event);
