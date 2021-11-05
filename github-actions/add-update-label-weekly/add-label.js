@@ -139,8 +139,9 @@ async function getTimeline(issueNum) {
       } else {
         return
       }
-    } catch {
-      continue
+    } catch (err) {
+	   console.log(err); 
+      
     }
 }
 
