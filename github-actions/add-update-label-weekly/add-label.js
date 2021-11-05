@@ -32,8 +32,6 @@ async function main({ g, c }, columnId) {
 	for await (let issueNum of issueNums) {
 		const timeline = await getTimeline(issueNum);
 		const timelineArray = Array.from(timeline);
-		console.log(Array.isArray(timelineArray));
-		console.log(Array.isArray(timeline));
 		const assignees = await getAssignees(issueNum);
 		// Error catching.
 		if (assignees.length === 0) {
@@ -140,8 +138,6 @@ async function getTimeline(issueNum) {
       });
       if (results.data.length) {
 	      arra = arra.concat(results.data);
-				console.log(results.data);
-        
       } else {
         break
       }
