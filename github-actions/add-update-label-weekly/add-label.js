@@ -42,7 +42,7 @@ async function main({ g, c }, columnId) {
 		}
 		
 		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
-		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
+		const responseObject = await isTimelineOutdated(timelineArray, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
@@ -137,6 +137,8 @@ async function* getTimeline(issueNum) {
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	//const timelineArray = Array.from(timeline);
 	for await (let [index, moment] of timeline.entries()) {
+		console.log('index', index);
+		console.log('moment', moment);
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14 days: ',moment);
 			console.log('event is', moment.event);
