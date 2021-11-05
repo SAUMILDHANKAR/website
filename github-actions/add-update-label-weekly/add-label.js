@@ -100,7 +100,7 @@ async function* getIssueNumsFromColumn(columnId) {
  * @param {Number} issueNum the issue's number 
  * @returns an Array of Objects containing the issue's timeline of events
  */
-async function* getTimeline(issueNum) {
+/**async function* getTimeline(issueNum) {
   let page = 1
   while (page < 100) {
     try {
@@ -124,7 +124,26 @@ async function* getTimeline(issueNum) {
       page++
     }
   }
+}*/
+
+async function getTimeline(issueNum) {
+	try {
+      const results = await github.issues.listEventsForTimeline({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: issueNum,
+      });
+      if (results.data.length) {
+	      console.log(results.data);
+        return results.data
+      } else {
+        return
+      }
+    } catch {
+      continue
+    }
 }
+
 
 /**
  * Assesses whether the timeline is outdated.
