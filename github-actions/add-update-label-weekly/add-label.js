@@ -42,7 +42,7 @@ async function main({ g, c }, columnId) {
 		}
 		
 		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
-		const responseObject = await isTimelineOutdated(timelineArray, issueNum, assignees)
+		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
@@ -112,6 +112,7 @@ async function* getTimeline(issueNum) {
         page: page,
       });
       if (results.data.length) {
+	      console.log(results.data);
         yield* results.data
       } else {
         return
@@ -135,11 +136,7 @@ async function* getTimeline(issueNum) {
  */
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
-	//const timelineArray = Array.from(timeline);
-	console.log(timeline);
-	for await (let [index, moment] of timeline.entries()) {
-		console.log('index', index);
-		console.log('moment', moment);
+	for await (let moment of timeline) {
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
 			console.log('14 days: ',moment);
 			console.log('event is', moment.event);
@@ -151,9 +148,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if  (index === timeline.length-1) {
+			/**else if  (index === timeline.length-1) {
 				return {result: true, labels: inactiveLabel}
-			}
+			}*/
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
 			console.log('3 days: ', moment);
@@ -167,9 +164,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1) {
+			/**else if (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
-			}
+			}*/
 		}
 		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			console.log(`No updates needed for issue #${issueNum}`);
