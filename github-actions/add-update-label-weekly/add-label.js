@@ -127,21 +127,33 @@ async function* getIssueNumsFromColumn(columnId) {
 }*/
 
 async function getTimeline(issueNum) {
-	try {
+	let arra = []
+	let page = 1
+  while (true) {
+    try {
       const results = await github.issues.listEventsForTimeline({
         owner: context.repo.owner,
         repo: context.repo.repo,
         issue_number: issueNum,
+        per_page: 100,
+        page: page,
       });
       if (results.data.length) {
-        return results.data
+	      arra = arra.concat(results.data);
+				console.log(results.data);
+        
       } else {
-        return
+        break
       }
     } catch (err) {
-	   console.log(err); 
-      
+      console.log(error);
+			continue
     }
+    finally {
+      page++
+    }
+  }
+	return arra
 }
 
 
