@@ -164,16 +164,16 @@ async function getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
-		console.log(`${index} of ${timeline.length-1}`);
+		//console.log(`${index} of ${timeline.length-1}`);
 		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
-			console.log('14 days: ',moment);
-			console.log('event is', moment.event);
-			console.log(isCommentByAssignees(moment, assignees));
+			//console.log('14 days: ',moment);
+			//console.log('event is', moment.event);
+			//console.log(isCommentByAssignees(moment, assignees));
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				console.log('event commented');
+				//console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if  (index === timeline.length-1) {
@@ -181,15 +181,15 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
-			console.log('3 days: ', moment);
-			console.log('event is', moment.event);
-			console.log(isCommentByAssignees(moment, assignees));
+			//console.log('3 days: ', moment);
+			//console.log('event is', moment.event);
+			//console.log(isCommentByAssignees(moment, assignees));
 
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				console.log('event commented');
+				//console.log('event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (index === timeline.length-1) {
