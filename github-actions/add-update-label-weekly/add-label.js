@@ -177,6 +177,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if  (index === timeline.length-1) {
+				console.log(index);
 				return {result: true, labels: inactiveLabel}
 			}
 		}
@@ -193,6 +194,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (index === timeline.length-1) {
+				console.log(index);
 				return {result: true, labels: toUpdateLabel}
 			}
 		}
@@ -264,7 +266,7 @@ async function postComment(issueNum, assignees) {
 function isMomentRecent(dateString, cutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj >= cutoffTime) {
+  if (dateStringObj <= cutoffTime) {
     return true
   } else {
     return false
