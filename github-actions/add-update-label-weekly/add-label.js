@@ -197,7 +197,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 		}
 		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			console.log(`No updates needed for issue #${issueNum}`);
+			//console.log(`No updates needed for issue #${issueNum}`);
       			return {result: false, labels: statusUpdatedLabel}
 		}	
 	}
@@ -264,7 +264,7 @@ async function postComment(issueNum, assignees) {
 function isMomentRecent(dateString, cutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= cutoffTime) {
+  if (dateStringObj >= cutoffTime) {
     return true
   } else {
     return false
