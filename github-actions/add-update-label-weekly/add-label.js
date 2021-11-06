@@ -177,9 +177,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if  (index === timeline.length-1) {
-				console.log(index);
 				return {result: true, labels: inactiveLabel}
 			}
+			console.log(index === timeline.length-1);
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
 			//console.log('3 days: ', moment);
@@ -194,9 +194,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (index === timeline.length-1) {
-				console.log(index);
 				return {result: true, labels: toUpdateLabel}
 			}
+			console.log(index === timeline.length-1);
 		}
 		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			//console.log(`No updates needed for issue #${issueNum}`);
