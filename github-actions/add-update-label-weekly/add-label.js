@@ -166,8 +166,9 @@ async function getTimeline(issueNum) {
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		console.log(`${index} of ${timeline.length-1}`);
-		//console.log(timeline);
+		console.log(moment);
 		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
+			console.log('3 day cutoff');
 			//console.log('14 days: ',moment);
 			//console.log('event is', moment.event);
 			//console.log(isCommentByAssignees(moment, assignees));
@@ -185,6 +186,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			//console.log(index === timeline.length-1);
 		}
 		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
+			console.log('14 day cutoff');
 			//console.log('3 days: ', moment);
 			//console.log('event is', moment.event);
 			//console.log(isCommentByAssignees(moment, assignees));
