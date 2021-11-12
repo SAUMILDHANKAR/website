@@ -172,10 +172,11 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			//console.log('event is', moment.event);
 			//console.log(isCommentByAssignees(moment, assignees));
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				console.log('14 day event cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				//console.log('event commented');
+				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if  (index === timeline.length-1) {
@@ -189,10 +190,11 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			//console.log(isCommentByAssignees(moment, assignees));
 
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				console.log('3 day event cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				//console.log('event commented');
+				console.log('3 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (index === timeline.length-1) {
@@ -201,7 +203,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			//console.log(index === timeline.length-1);
 		}
 		else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			//console.log(`No updates needed for issue #${issueNum}`);
+			console.log(`No updates needed for issue #${issueNum}`);
       			return {result: false, labels: statusUpdatedLabel}
 		}	
 	}
