@@ -166,24 +166,10 @@ async function getTimeline(issueNum) {
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		console.log(`${index} of ${timeline.length-1}`);
-		console.log(moment);
-		if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
-			console.log('14 day cutoff');
-			//console.log('14 days: ',moment);
-			//console.log('event is', moment.event);
-			//console.log(isCommentByAssignees(moment, assignees));
-			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
-				console.log('14 day event cross referenced');
-				return {result: false, labels: statusUpdatedLabel}
-			}
-			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
-				console.log('14 day event commented');
-				return {result: false, labels: statusUpdatedLabel}
-			}
-			else if  (index === timeline.length-1) {
-				return {result: true, labels: inactiveLabel}
-			}
-			//console.log(index === timeline.length-1);
+		//console.log(moment);
+		if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
+			console.log(`No updates needed for issue #${issueNum}`);
+      			return {result: false, labels: statusUpdatedLabel}
 		}
 		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
 			console.log('3 day cutoff');
@@ -204,10 +190,26 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			//console.log(index === timeline.length-1);
 		}
-		/**else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			console.log(`No updates needed for issue #${issueNum}`);
-      			return {result: false, labels: statusUpdatedLabel}
-		}*/	
+		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
+			console.log('14 day cutoff');
+			//console.log('14 days: ',moment);
+			//console.log('event is', moment.event);
+			//console.log(isCommentByAssignees(moment, assignees));
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				console.log('14 day event cross referenced');
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+				console.log('14 day event commented');
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			else if  (index === timeline.length-1) {
+				return {result: true, labels: inactiveLabel}
+			}
+			//console.log(index === timeline.length-1);
+		}
+		
+		
 	}
 }	
 
