@@ -272,7 +272,7 @@ async function postComment(issueNum, assignees) {
 function isMomentRecent(dateString, cutoffTime) {
   const dateStringObj = new Date(dateString);
 
-  if (dateStringObj <= cutoffTime) {
+  if (dateStringObj >= cutoffTime) {
     return true
   } else {
     return false
