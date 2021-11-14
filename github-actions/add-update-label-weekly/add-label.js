@@ -167,8 +167,8 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		console.log(`${index} of ${timeline.length-1}`);
 		console.log(moment);
-		console.log(moment.commented);
-		console.log(moment.user);
+		console.log(moment.event);
+		console.log(moment.created_at);
 		if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			console.log(`No updates needed for issue #${issueNum}`);
       			return {result: false, labels: statusUpdatedLabel}
