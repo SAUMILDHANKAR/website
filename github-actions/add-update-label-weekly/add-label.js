@@ -200,7 +200,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			else if (index === timeline.length-1 && timeline[0].created_at < threeDayCutoffTime.toString()) {
 				console.log('about to break');
-				break
+				continue
 			}
 			else if (index === timeline.length-1) {
 				return {result: true, labels: statusUpdatedLabel}
