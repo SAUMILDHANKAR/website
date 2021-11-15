@@ -166,7 +166,7 @@ async function getTimeline(issueNum) {
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		console.log(`${index} of ${timeline.length-1}`);
-		console.log(moment);
+		//console.log(moment);
 		console.log(timeline[0].created_at);
 		console.log(threeDayCutoffTime);
 		console.log(threeDayCutoffTime.toString());
@@ -177,7 +177,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log(moment.event);
 		console.log(moment.created_at);
 		//console.log(moment[0]);
-		console.log(timeline[0]);
+		//console.log(timeline[0]);
 		console.log(timeline[0].created_at);
 		//console.log(moment[0].created_at);
 		console.log(moment.actor.type);
