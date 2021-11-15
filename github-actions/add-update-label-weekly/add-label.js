@@ -200,7 +200,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			else if (index === timeline.length-1 && timeline[0].created_at < threeDayCutoffTime.toString()) {
 				console.log('about to break');
-				continue
+				return {result: true, labels: toUpdateLabel}
 			}
 			else if (index === timeline.length-1) {
 				return {result: true, labels: statusUpdatedLabel}
@@ -219,6 +219,10 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
+			}
+			else if (index === timeline.length-1 && timeline[0].created_at < fourteenDayCutoffTime.toString()) {
+				console.log('about to break');
+				return {result: true, labels: inactiveLabel}
 			}
 			else if  (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
