@@ -169,6 +169,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log(moment);
 		console.log(moment.event);
 		console.log(moment.created_at);
+		console.log(moment[0]);
+		console.log(timeline[0]);
+		console.log(timeline[0].created_at);
 		console.log(moment[0].created_at);
 		console.log(moment.actor.type);
 		console.log(moment.label);
