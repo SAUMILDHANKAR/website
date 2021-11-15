@@ -169,7 +169,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log(moment);
 		console.log(moment.event);
 		console.log(moment.created_at);
-		console.log(moment.created_at[0]);
+		console.log(moment[0].created_at);
 		console.log(moment.actor.type);
 		console.log(moment.label);
 		console.log(isMomentRecent(moment.created_at, threeDayCutoffTime));
@@ -188,7 +188,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('3 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === 0 && (moment.created_at > threeDayCutoffTime)) {
+			else if (index === timeline.length-1 && moment[0].created_at > threeDayCutoffTime) {
 				break
 			}
 			else if (index === timeline.length-1) {
