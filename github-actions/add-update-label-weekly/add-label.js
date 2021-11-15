@@ -198,7 +198,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('3 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 && timeline[0].created_at < threeDayCutoffTime) {
+			else if (index === timeline.length-1 && timeline[0].created_at < threeDayCutoffTime.toString()) {
 				break
 			}
 			else if (index === timeline.length-1) {
