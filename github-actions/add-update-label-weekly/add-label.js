@@ -46,7 +46,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
-			await postComment(issueNum, assignees);
+			//await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
@@ -54,7 +54,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
-			await postComment(issueNum, assignees);
+			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
@@ -171,12 +171,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log(moment.created_at);
 		console.log(moment.actor.type);
 		console.log(moment.label);
-		console.log(isMomentRecent(moment.created_at, zeroDayCutoffTime));
-		if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
-			console.log(`No updates needed for issue #${issueNum}`);
-      			return {result: false, labels: statusUpdatedLabel}
-		}
-		else if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
+		console.log(isMomentRecent(moment.created_at, threeDayCutoffTime));
+		console.log(isMomentRecent(moment.created_at, fourteenDayCutoffTime));
+		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
 			console.log('3 day cutoff');
 			//console.log('3 days: ', moment);
 			//console.log('event is', moment.event);
@@ -212,8 +209,10 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			//console.log(index === timeline.length-1);
 		}
-		
-		
+		else /**if (isMomentRecent(moment.created_at, zeroDayCutoffTime))*/ {
+			console.log(`No updates needed for issue #${issueNum}`);
+      			return {result: false, labels: statusUpdatedLabel}
+		}
 	}
 }	
 
