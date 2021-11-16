@@ -212,10 +212,12 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			else if (index === timeline.length-1 && timeline[0].created_at < fourteenDayCutoffTime.toString()) {
 				console.log('about to break');
+				console.log(timeline[0].created_at < fourteenDayCutoffTime.toString());
 				return {result: true, labels: inactiveLabel}
 			}
 			else if (index === timeline.length-1 && timeline[0].created_at < threeDayCutoffTime.toString()) {
 				console.log('about to break');
+				console.log(timeline[0].created_at < threeDayCutoffTime.toString());
 				return {result: true, labels: toUpdateLabel}
 			}
 			else if (index === timeline.length-1) {
