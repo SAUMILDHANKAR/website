@@ -175,6 +175,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log('threeDayCutoffTime.valueOf()',threeDayCutoffTime.valueOf());
 		console.log('threeDayCutoffTime.toString().valueOf()',threeDayCutoffTime.toString().valueOf());
 		console.log('typeof timeline[0].created_at',typeof timeline[0].created_at);
+		console.log('typeof timeline[0].created_at.toString()',typeof timeline[0].created_at.toString());
 		console.log('typeof threeDayCutoffTime.toString()',typeof threeDayCutoffTime.toString());
 		console.log('typeof timeline[0].created_at.valueOf()',typeof timeline[0].created_at.valueOf());
 		console.log('typeof threeDayCutoffTime.valueOf()',typeof threeDayCutoffTime.valueOf());
