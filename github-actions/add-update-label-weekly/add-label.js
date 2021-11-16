@@ -167,6 +167,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		//console.log(`${index} of ${timeline.length-1}`);
 		//console.log(moment);
+		
 		console.log('timeline[0].created_at',timeline[0].created_at);
 		console.log('threeDayCutoffTime',threeDayCutoffTime);
 		console.log('timeline[0].created_at.toString()',timeline[0].created_at.toString());
@@ -174,6 +175,8 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log('threeDayCutoffTime.toString()',threeDayCutoffTime.toString());
 		console.log('threeDayCutoffTime.valueOf()',threeDayCutoffTime.valueOf());
 		console.log('threeDayCutoffTime.toString().valueOf()',threeDayCutoffTime.toString().valueOf());
+		console.log('typeof timeline[0]',typeof timeline[0]);
+		console.log('typeof threeDayCutoffTime',typeof threeDayCutoffTime);
 		console.log('typeof timeline[0].created_at',typeof timeline[0].created_at);
 		console.log('typeof timeline[0].created_at.toString()',typeof timeline[0].created_at.toString());
 		console.log('typeof threeDayCutoffTime.toString()',typeof threeDayCutoffTime.toString());
