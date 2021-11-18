@@ -226,9 +226,9 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log(timeline[0].created_at < threeDayCutoffTime.valueOf());
 				return {result: true, labels: toUpdateLabel}
 			}
-			else if (index === timeline.length-1) {
+			/**else if (index === timeline.length-1) {
 				return {result: true, labels: statusUpdatedLabel}
-			}
+			}*/
 			//console.log(index === timeline.length-1);
 		}
 		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
@@ -248,12 +248,12 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('about to break');
 				return {result: true, labels: inactiveLabel}
 			}
-			else if  (index === timeline.length-1) {
+			/**else if  (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
-			}
+			}*/
 			//console.log(index === timeline.length-1);
 		}
-		else /**if (isMomentRecent(moment.created_at, zeroDayCutoffTime))*/ {
+		/**else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			console.log('14 day cutoff');
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				console.log('14 day event cross referenced');
@@ -266,7 +266,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			else if  (index === timeline.length-1) {
 				return {result: true, labels: inactiveLabel}
 			}
-		}
+		}*/
 	}
 }	
 
