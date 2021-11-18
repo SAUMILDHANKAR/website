@@ -169,6 +169,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		//console.log(moment);
 		
 		console.log('timeline[0].created_at',timeline[0].created_at);
+		console.log('Date.parse(timeline[0].created_at)',Date.parse(timeline[0].created_at));
 		console.log('threeDayCutoffTime',threeDayCutoffTime);
 		console.log('timeline[0].created_at.toString()',timeline[0].created_at.toString());
 		console.log('timeline[0].created_at.toString().valueOf()',timeline[0].created_at.toString().valueOf());
@@ -177,6 +178,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log('threeDayCutoffTime.toString().valueOf()',threeDayCutoffTime.toString().valueOf());
 		console.log('typeof timeline[0]',typeof timeline[0]);
 		console.log('typeof timeline[0].created_at',typeof timeline[0].created_at);
+		console.log('typeof Date.parse(timeline[0].created_at)',typeof Date.parse(timeline[0].created_at));
 		console.log('typeof threeDayCutoffTime',typeof threeDayCutoffTime);
 		console.log('typeof timeline[0].created_at',typeof timeline[0].created_at);
 		console.log('typeof timeline[0].created_at.toString()',typeof timeline[0].created_at.toString());
@@ -184,8 +186,8 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		console.log('typeof timeline[0].created_at.valueOf()',typeof timeline[0].created_at.valueOf());
 		console.log('typeof threeDayCutoffTime.valueOf()',typeof threeDayCutoffTime.valueOf());
 		console.log('typeof threeDayCutoffTime.toString().valueOf()',typeof threeDayCutoffTime.toString().valueOf());
-		console.log(timeline[0].created_at < threeDayCutoffTime.toString());
-		console.log(timeline[0].created_at > threeDayCutoffTime.toString());
+		console.log(Date.parse(timeline[0].created_at) < threeDayCutoffTime.toString());
+		console.log(Date.parse(timeline[0].created_at) > threeDayCutoffTime.toString());
 		console.log(moment.event);
 		console.log(moment.created_at);
 		//console.log(moment[0]);
@@ -210,16 +212,16 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('3 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 && timeline[0].created_at < fourteenDayCutoffTime.toString()) {
+			else if (index === timeline.length-1 && Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.toString()) {
 				console.log('about to break 14');
-				console.log(timeline[0].created_at);
+				console.log(Date.parse(timeline[0].created_at));
 				console.log(fourteenDayCutoffTime.toString());
 				console.log(timeline[0].created_at < fourteenDayCutoffTime.toString());
 				return {result: true, labels: inactiveLabel}
 			}
-			else if (index === timeline.length-1 && timeline[0].created_at < threeDayCutoffTime.toString()) {
+			else if (index === timeline.length-1 && Date.parse(timeline[0].created_at) < threeDayCutoffTime.toString()) {
 				console.log('about to break 3');
-				console.log(timeline[0].created_at);
+				console.log(Date.parse(timeline[0].created_at));
 				console.log(threeDayCutoffTime.toString());
 				console.log(timeline[0].created_at < threeDayCutoffTime.toString());
 				return {result: true, labels: toUpdateLabel}
@@ -242,7 +244,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 && timeline[0].created_at < fourteenDayCutoffTime.toString()) {
+			else if (index === timeline.length-1 && Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.toString()) {
 				console.log('about to break');
 				return {result: true, labels: inactiveLabel}
 			}
