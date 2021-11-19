@@ -198,7 +198,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		//console.log(moment.label);
 		console.log(isMomentRecent(moment.created_at, threeDayCutoffTime));
 		console.log(isMomentRecent(moment.created_at, fourteenDayCutoffTime));
-		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) {
+		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) { // all the events of an issue within last three days will return true
 			console.log('latest');
 			//console.log('3 days: ', moment);
 			//console.log('event is', moment.event);
@@ -212,26 +212,26 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('3 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) {
+			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf()) // returns true if issue was created before 14 days) { 
 				console.log('about to break 14');
 				console.log(Date.parse(timeline[0].created_at));
 				console.log(fourteenDayCutoffTime.toString());
 				console.log(timeline[0].created_at < fourteenDayCutoffTime.valueOf());
 				return {result: true, labels: inactiveLabel}
 			}
-			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < threeDayCutoffTime.valueOf())) {
+			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < threeDayCutoffTime.valueOf()) // returns true if issue was created before 3 days) {
 				console.log('about to break 3');
 				console.log(Date.parse(timeline[0].created_at));
 				console.log(threeDayCutoffTime.toString());
 				console.log(timeline[0].created_at < threeDayCutoffTime.valueOf());
 				return {result: true, labels: toUpdateLabel}
 			}
-			/**else if (index === timeline.length-1) {
+			else if (index === timeline.length-1) { // returns true if above two else ifs are false meaning issue was created within last 3 days
 				return {result: true, labels: statusUpdatedLabel}
-			}*/
+			}
 			//console.log(index === timeline.length-1);
 		}
-		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
+		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) { // all the events of an issue between three and fourteen days will return true
 			console.log('14 day cutoff');
 			//console.log('14 days: ',moment);
 			//console.log('event is', moment.event);
@@ -248,7 +248,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) {
+			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf()) // returns true if issue was created before 14 days) {
 				console.log('about to break');
 				return {result: true, labels: inactiveLabel}
 			}*/
