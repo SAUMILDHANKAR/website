@@ -240,23 +240,29 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('14 day event cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else {
+			/**else {
 				console.log('issue stale');
 				return {result: true, labels: inactiveLabel}
-			}
+			}*/
 			/**else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
-			}
+			}*/
 			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf()) // returns true if issue was created before 14 days) {
 				console.log('about to break');
 				return {result: true, labels: inactiveLabel}
-			}*/
+			}
 			/**else if  (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
 			}*/
 			//console.log(index === timeline.length-1);
 		}
+		else    { // all the events of an issue before fourteen days will be processed here
+			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
+				console.log('14 day event cross referenced');
+				return {result: false, labels: statusUpdatedLabel}
+			}
+			
 		/**else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			console.log('14 day cutoff');
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
