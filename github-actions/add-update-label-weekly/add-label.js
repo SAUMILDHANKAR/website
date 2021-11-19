@@ -240,14 +240,18 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('14 day event cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
+			else {
+				console.log('issue stale');
+				return {result: true, labels: inactiveLabel}
+			}
+			/**else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) {
 				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
 			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) {
 				console.log('about to break');
 				return {result: true, labels: inactiveLabel}
-			}
+			}*/
 			/**else if  (index === timeline.length-1) {
 				return {result: true, labels: toUpdateLabel}
 			}*/
