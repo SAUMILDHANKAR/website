@@ -212,14 +212,14 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('3 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf()) // returns true if issue was created before 14 days) { 
+			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) { // returns true if issue was created before 14 days)  
 				console.log('about to break 14');
 				console.log(Date.parse(timeline[0].created_at));
 				console.log(fourteenDayCutoffTime.toString());
 				console.log(timeline[0].created_at < fourteenDayCutoffTime.valueOf());
 				return {result: true, labels: inactiveLabel}
 			}
-			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < threeDayCutoffTime.valueOf()) // returns true if issue was created before 3 days) {
+			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < threeDayCutoffTime.valueOf())) { // returns true if issue was created before 3 days
 				console.log('about to break 3');
 				console.log(Date.parse(timeline[0].created_at));
 				console.log(threeDayCutoffTime.toString());
@@ -248,7 +248,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('14 day event commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}
-			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf()) // returns true if issue was created before 14 days) {
+			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) { // returns true if issue was created before 14 days
 				console.log('about to break');
 				return {result: true, labels: inactiveLabel}
 			}
