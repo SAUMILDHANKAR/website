@@ -10,8 +10,11 @@ const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // number of days ago to check for to update label
 const inactiveUpdatedByDays = 14; // number of days ago to check for inactive label
 const latestDays = 0; 
+const commentByDays = 7; // number of days ago to check for comment by assignee
 const threeDayCutoffTime = new Date()
 threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
+const sevenDayCutoffTime = new Date()
+sevenDayCutoffTime.setDate(sevenDayCutoffTime.getDate() - commentByDays)
 const fourteenDayCutoffTime = new Date()
 fourteenDayCutoffTime.setDate(fourteenDayCutoffTime.getDate() - inactiveUpdatedByDays)
 const zeroDayCutoffTime = new Date()
@@ -203,7 +206,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			//console.log('3 days: ', moment);
 			//console.log('event is', moment.event);
 			//console.log(isCommentByAssignees(moment, assignees));
-			console.log(`No updates needed for issue #${issueNum}`);
+			//console.log(`No updates needed for issue #${issueNum}`);
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) {
 				console.log('3 day event cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
