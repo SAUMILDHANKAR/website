@@ -232,7 +232,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			//console.log(index === timeline.length-1);
 		}
 		else if (isMomentRecent(moment.created_at, fourteenDayCutoffTime)) {
-			console.log('3 day cutoff');
+			console.log('14 day cutoff');
 			//console.log('14 days: ',moment);
 			//console.log('event is', moment.event);
 			//console.log(isCommentByAssignees(moment, assignees));
