@@ -215,7 +215,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('within last three days commented');
 				return {result: false, labels: statusUpdatedLabel}
 			}*/
-			else if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) { // returns true if issue was created before 14 days)  
+			if (index === timeline.length-1 /** maybe not required*/ && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) { // returns true if issue was created before 14 days)  
 				console.log('issue was created before 14 days');
 				console.log(Date.parse(timeline[0].created_at));
 				console.log(fourteenDayCutoffTime.toString());
