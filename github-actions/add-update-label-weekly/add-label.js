@@ -262,6 +262,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('14 day event cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
 			}
+		}
 			
 		/**else if (isMomentRecent(moment.created_at, zeroDayCutoffTime)) {
 			console.log('14 day cutoff');
