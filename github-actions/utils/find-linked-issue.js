@@ -8,6 +8,7 @@ function findLinkedIssue(text) {
 
     // Receive and unpack matches into an Array of Array objs
     let re = new RegExp(reArr.join('|'), 'gi')
+    console.log('text:', text);
     console.log('re:', re);
     let matches = text.matchAll(re)
     console.log('matches:', matches);
