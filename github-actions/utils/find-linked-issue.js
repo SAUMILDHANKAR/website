@@ -8,7 +8,9 @@ function findLinkedIssue(text) {
 
     // Receive and unpack matches into an Array of Array objs
     let re = new RegExp(reArr.join('|'), 'gi')
+    console.log('re:', re);
     let matches = text.matchAll(re)
+    console.log('matches:', matches);
     matches = [...matches]
 
     // If only one match is found, return the issue number. Else return false. Also console.log results.
