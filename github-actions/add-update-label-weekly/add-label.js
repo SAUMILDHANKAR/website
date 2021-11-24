@@ -9,7 +9,6 @@ const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // number of days ago to check for to update label
 const inactiveUpdatedByDays = 14; // number of days ago to check for inactive label
-const latestDays = 0; 
 const commentByDays = 7; // number of days ago to check for comment by assignee
 const threeDayCutoffTime = new Date()
 threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
@@ -17,9 +16,6 @@ const sevenDayCutoffTime = new Date()
 sevenDayCutoffTime.setDate(sevenDayCutoffTime.getDate() - commentByDays)
 const fourteenDayCutoffTime = new Date()
 fourteenDayCutoffTime.setDate(fourteenDayCutoffTime.getDate() - inactiveUpdatedByDays)
-const zeroDayCutoffTime = new Date()
-zeroDayCutoffTime.setDate(zeroDayCutoffTime.getDate() - latestDays)
-
 
 /**
  * The main function, which retrieves issues from a specific column in a specific project, before examining the timeline of each issue for outdatedness. If outdated, the old status label is removed, and an updated is requested. Otherwise, the issue is labeled as updated.
@@ -34,7 +30,6 @@ async function main({ g, c }, columnId) {
 	const issueNums = getIssueNumsFromColumn(columnId);
 	for await (let issueNum of issueNums) {
 		const timeline = await getTimeline(issueNum);
-		//console.log('this is the length of function', timeline.length);
 		const timelineArray = Array.from(timeline);
 		const assignees = await getAssignees(issueNum);
 		// Error catching.
@@ -43,13 +38,13 @@ async function main({ g, c }, columnId) {
 		  continue
 		}
 		
-		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is outdated, inactive or updated accordingly 
+		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is inactive, to be updated or up to date accordingly 
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			await addLabels(issueNum, responseObject.labels); 
-			//await postComment(issueNum, assignees);
+			await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			await addLabels(issueNum, responseObject.labels);
@@ -57,7 +52,7 @@ async function main({ g, c }, columnId) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			await addLabels(issueNum, responseObject.labels);
-			//await postComment(issueNum, assignees);
+			await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
 			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
@@ -98,35 +93,10 @@ async function* getIssueNumsFromColumn(columnId) {
   }
 }
 /**
- * Generator that returns the timeline of an issue.
+ * Function that returns the timeline of an issue.
  * @param {Number} issueNum the issue's number 
  * @returns an Array of Objects containing the issue's timeline of events
  */
-/**async function* getTimeline(issueNum) {
-  let page = 1
-  while (page < 100) {
-    try {
-      const results = await github.issues.listEventsForTimeline({
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        issue_number: issueNum,
-        per_page: 100,
-        page: page,
-      });
-      if (results.data.length) {
-	      console.log(results.data);
-        yield* results.data
-      } else {
-        return
-      }
-    } catch {
-      continue
-    }
-    finally {
-      page++
-    }
-  }
-}*/
 
 async function getTimeline(issueNum) {
 	let arra = []
@@ -156,7 +126,6 @@ async function getTimeline(issueNum) {
 	return arra
 }
 
-
 /**
  * Assesses whether the timeline is outdated.
  * @param {Array} timeline a list of events in the timeline of an issue, retrieved from the issues API
@@ -168,39 +137,6 @@ async function getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
-		console.log(`${index} of ${timeline.length-1}`);
-		//console.log(moment);
-		
-		console.log('timeline[0].created_at',timeline[0].created_at);
-		console.log('Date.parse(timeline[0].created_at)',Date.parse(timeline[0].created_at));
-		console.log('threeDayCutoffTime',threeDayCutoffTime);
-		console.log('timeline[0].created_at.toString()',timeline[0].created_at.toString());
-		console.log('timeline[0].created_at.toString().valueOf()',timeline[0].created_at.toString().valueOf());
-		console.log('threeDayCutoffTime.toString()',threeDayCutoffTime.toString());
-		console.log('threeDayCutoffTime.valueOf()',threeDayCutoffTime.valueOf());
-		console.log('threeDayCutoffTime.toString().valueOf()',threeDayCutoffTime.toString().valueOf());
-		console.log('typeof timeline[0]',typeof timeline[0]);
-		console.log('typeof timeline[0].created_at',typeof timeline[0].created_at);
-		console.log('typeof Date.parse(timeline[0].created_at)',typeof Date.parse(timeline[0].created_at));
-		console.log('typeof threeDayCutoffTime',typeof threeDayCutoffTime);
-		console.log('typeof timeline[0].created_at',typeof timeline[0].created_at);
-		console.log('typeof timeline[0].created_at.toString()',typeof timeline[0].created_at.toString());
-		console.log('typeof threeDayCutoffTime.toString()',typeof threeDayCutoffTime.toString());
-		console.log('typeof timeline[0].created_at.valueOf()',typeof timeline[0].created_at.valueOf());
-		console.log('typeof threeDayCutoffTime.valueOf()',typeof threeDayCutoffTime.valueOf());
-		console.log('typeof threeDayCutoffTime.toString().valueOf()',typeof threeDayCutoffTime.toString().valueOf());
-		console.log(Date.parse(timeline[0].created_at) < threeDayCutoffTime.valueOf());
-		console.log(Date.parse(timeline[0].created_at) > threeDayCutoffTime.valueOf());
-		console.log(moment.event);
-		console.log(moment.created_at);
-		//console.log(moment[0]);
-		//console.log(timeline[0]);
-		console.log(timeline[0].created_at);
-		//console.log(moment[0].created_at);
-		console.log(moment.actor.type);
-		//console.log(moment.label);
-		console.log(isMomentRecent(moment.created_at, threeDayCutoffTime));
-		console.log(isMomentRecent(moment.created_at, fourteenDayCutoffTime));
 		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) { // all the events of an issue within last three days will return true
 			console.log('latest');
 			//console.log('3 days: ', moment);
