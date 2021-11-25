@@ -169,6 +169,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 				console.log('between 7 and 14 cross referenced');
 				return {result: false, labels: statusUpdatedLabel}
 			}
+		}
 		else    { // all the events of an issue older than fourteen days will be processed here
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) { // checks if cross referenced older than fourteen days
 				console.log('14 day event cross referenced');
