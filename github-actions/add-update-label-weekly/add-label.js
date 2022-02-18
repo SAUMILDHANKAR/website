@@ -42,21 +42,25 @@ async function main({ g, c }, columnId) {
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
-			await addLabels(issueNum, responseObject.labels); 
-			await postComment(issueNum, assignees);
+			console.log(timeline);
+			//await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
+			//await addLabels(issueNum, responseObject.labels); 
+			//await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
-			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-			await addLabels(issueNum, responseObject.labels);
+			console.log(timeline);
+			//await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			//await addLabels(issueNum, responseObject.labels);
 		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
-			await addLabels(issueNum, responseObject.labels);
-			await postComment(issueNum, assignees);
+			console.log(timeline);
+			//await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
+			//await addLabels(issueNum, responseObject.labels);
+			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
-			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-			await addLabels(issueNum, responseObject.labels);
+			console.log(timeline);
+			//await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			//await addLabels(issueNum, responseObject.labels);
 		}
 	}
 }	
