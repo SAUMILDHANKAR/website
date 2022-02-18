@@ -9,9 +9,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/github-script@v4
         env:
-          ICE_BOX_COLUMN_ID: ${{ secrets.ICE_BOX_COLUMN_ID }}
+          IN_PROGRESS_COLUMN_ID: ${{ secrets.IN_PROGRESS_COLUMN_ID }}
         with:
           script: |
-            const { ICE_BOX_COLUMN_ID } = process.env;
+            const { IN_PROGRESS_COLUMN_ID } = process.env;
             const script = require('./github-actions/add-update-label-weekly/add-label.js');
-            script({ g: github, c: context }, ICE_BOX_COLUMN_ID);
+            script({ g: github, c: context }, IN_PROGRESS_COLUMN_ID);
