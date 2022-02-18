@@ -40,7 +40,6 @@ async function main({ g, c }, columnId) {
 		
 		// Add and remove labels as well as post comment if the issue's timeline indicates the issue is inactive, to be updated or up to date accordingly 
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
-		console.log(assignees.includes(data.actor.login));
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
 			console.log(timeline);
@@ -143,6 +142,8 @@ async function getTimeline(issueNum) {
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		console.log(`${index} of ${timeline.length-1}`);
+		console.log(assignees.includes(moment.actor.login));
+		console.log(isCommentByAssignees(data, assignees));
 		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) { // all the events of an issue within last three days will return true
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) { // checks if cross referenced within last three days 
 				return {result: false, labels: statusUpdatedLabel}
