@@ -42,23 +42,23 @@ async function main({ g, c }, columnId) {
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			console.log(timeline);
+			//console.log(timeline);
 			//await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
 			//await addLabels(issueNum, responseObject.labels); 
 			//await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
-			console.log(timeline);
+			//console.log(timeline);
 			//await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			//await addLabels(issueNum, responseObject.labels);
 		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			console.log(timeline);
+			//console.log(timeline);
 			//await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
 			//await addLabels(issueNum, responseObject.labels);
 			//await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
-			console.log(timeline);
+			//console.log(timeline);
 			//await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
 			//await addLabels(issueNum, responseObject.labels);
 		}
@@ -142,11 +142,12 @@ async function getTimeline(issueNum) {
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
 		console.log(`${index} of ${timeline.length-1}`);
-		console.log(assignees.includes(moment.actor.login));
-		console.log(assignees);
+		console.log('assignees.includes(moment.actor.login), ', assignees.includes(moment.actor.login));
+		console.log('assignees, ', assignees);
 		//console.log(includes(moment.actor.login));
-		console.log(moment.actor.login);
-		console.log(moment);
+		console.log('moment.actor.login,',moment.actor.login);
+		console.log('moment,',moment);
+		console.log('moment.created_at,',moment.created_at);
 		//console.log(actor.login);
 		//console.log(login);
 		console.log(isCommentByAssignees(moment, assignees));
