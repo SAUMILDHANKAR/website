@@ -42,25 +42,21 @@ async function main({ g, c }, columnId) {
 		const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
 		if (responseObject.result === true && responseObject.labels === toUpdateLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			//console.log(timeline);
-			//await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
-			//await addLabels(issueNum, responseObject.labels); 
-			//await postComment(issueNum, assignees);
+			await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);  
+			await addLabels(issueNum, responseObject.labels); 
+			await postComment(issueNum, assignees);
 		} else if (responseObject.result === true && responseObject.labels === statusUpdatedLabel) {
-			//console.log(timeline);
-			//await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-			//await addLabels(issueNum, responseObject.labels);
+			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			await addLabels(issueNum, responseObject.labels);
 		} else if (responseObject.result === true && responseObject.labels === inactiveLabel) {
 			console.log(`Going to ask for an update now for issue #${issueNum}`);
-			//console.log(timeline);
-			//await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
-			//await addLabels(issueNum, responseObject.labels);
-			//await postComment(issueNum, assignees);
+			await removeLabels(issueNum, toUpdateLabel, statusUpdatedLabel);
+			await addLabels(issueNum, responseObject.labels);
+			await postComment(issueNum, assignees);
 		} else {
 			console.log(`No updates needed for issue #${issueNum}`);
-			//console.log(timeline);
-			//await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
-			//await addLabels(issueNum, responseObject.labels);
+			await removeLabels(issueNum, toUpdateLabel, inactiveLabel);
+			await addLabels(issueNum, responseObject.labels);
 		}
 	}
 }	
@@ -141,22 +137,6 @@ async function getTimeline(issueNum) {
 
 async function isTimelineOutdated(timeline, issueNum, assignees) {
 	for await (let [index, moment] of timeline.entries()) {
-		console.log(`${index} of ${timeline.length-1}`);
-		//console.log('assignees.includes(moment.actor.login), ', assignees.includes(moment.actor.login));
-		console.log('assignees, ', assignees);
-		//console.log(includes(moment.actor.login));
-		console.log('moment.actor.login,',moment.actor.login);
-		console.log('moment.created_at,',moment.created_at);
-		console.log('7 day,',sevenDayCutoffTime);
-		console.log('date.parse moment.created_at,',Date.parse(moment.created_at));
-		console.log('sevenDayCutoffTime.valueOf(),',sevenDayCutoffTime.valueOf());
-		console.log('is action older than 7 days,',Date.parse(moment.created_at) < sevenDayCutoffTime.valueOf());
-		
-		//console.log(actor.login);
-		//console.log(login);
-		console.log(isCommentByAssignees(moment, assignees));
-		console.log(moment.event == 'commented')
-		console.log('moment,',moment);
 		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) { // all the events of an issue within last three days will return true
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) { // checks if cross referenced within last three days 
 				return {result: false, labels: statusUpdatedLabel}
