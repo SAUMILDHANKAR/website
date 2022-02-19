@@ -154,7 +154,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		//console.log(actor.login);
 		//console.log(login);
 		console.log(isCommentByAssignees(moment, assignees));
-		console.log('moment.event == 'commented,', moment.event == 'commented')
+		console.log('moment.event == 'commented',', moment.event == 'commented')
 		if (isMomentRecent(moment.created_at, threeDayCutoffTime)) { // all the events of an issue within last three days will return true
 			if (moment.event == 'cross-referenced' && isLinkedIssue(moment, issueNum)) { // checks if cross referenced within last three days 
 				return {result: false, labels: statusUpdatedLabel}
