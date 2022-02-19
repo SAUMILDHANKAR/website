@@ -147,9 +147,11 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 		//console.log(includes(moment.actor.login));
 		console.log('moment.actor.login,',moment.actor.login);
 		console.log('moment.created_at,',moment.created_at);
+		console.log('7 day,',sevenDayCutoffTime);
 		console.log('date.parse moment.created_at,',Date.parse(moment.created_at));
 		console.log('sevenDayCutoffTime.valueOf(),',sevenDayCutoffTime.valueOf());
 		console.log('is action older than 7 days,',Date.parse(moment.created_at) < sevenDayCutoffTime.valueOf());
+		
 		//console.log(actor.login);
 		//console.log(login);
 		console.log(isCommentByAssignees(moment, assignees));
