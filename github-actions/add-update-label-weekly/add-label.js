@@ -177,7 +177,7 @@ async function isTimelineOutdated(timeline, issueNum, assignees) {
 			}
 			else if (moment.event == 'commented' && isCommentByAssignees(moment, assignees)) { // checks if commented between 7 and 14 days
 				console.log('between 7 and 14 commented');
-				return {result: false, labels: toUpdateLabel}
+				return {result: true, labels: toUpdateLabel}
 			}
 			else if (index === timeline.length-1 && (Date.parse(timeline[0].created_at) < fourteenDayCutoffTime.valueOf())) { // returns true if issue was created before 14 days after comparing the two dates in millisecond format  
 				return {result: true, labels: inactiveLabel}
