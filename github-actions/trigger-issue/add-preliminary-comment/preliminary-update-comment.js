@@ -15,6 +15,7 @@ var context
 async function main({ g, c }, { shouldPost, issueNum }){
     github = g
     context = c
+    const timeline = await getTimeline(issueNum);	
     // If the previous action returns a false, stop here
     if(shouldPost === false){
       console.log('No need to post comment.')
@@ -65,10 +66,9 @@ async function getTimeline(issueNum) {
 }
 
 async function lastAssignee(timeline) {
-	const timeline = await getTimeline(issueNum);
 	for await (let [index, moment] of timeline.entries()) {
 		if (moment.event == 'assigned') { 
-			return {login}
+			return {true}
 		}
         	else {
             		break
