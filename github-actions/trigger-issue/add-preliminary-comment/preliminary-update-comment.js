@@ -66,6 +66,7 @@ async function getTimeline(issueNum) {
 }
 
 async function lastAssignee(timeline) {
+	const timeline = await getTimeline(issueNum);
 	for await (let [index, moment] of timeline.entries()) {
 		if (moment.event == 'assigned') { 
 			return {login}
