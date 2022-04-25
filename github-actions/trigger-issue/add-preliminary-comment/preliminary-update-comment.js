@@ -15,7 +15,6 @@ var context
 async function main({ g, c }, { shouldPost, issueNum }){
     github = g
     context = c
-    const timeline = await getTimeline(issueNum);
     // If the previous action returns a false, stop here
     if(shouldPost === false){
       console.log('No need to post comment.')
