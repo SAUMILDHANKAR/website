@@ -68,7 +68,7 @@ async function getTimeline(issueNum) {
 async function lastAssignee(timeline) {
 	for await (let [index, moment] of timeline.entries()) {
 		if (moment.event == 'assigned') { 
-			console.log (moment.event.assignee);
+			return (moment.event.assignee)
 		}
         	else {
             		break
@@ -81,7 +81,7 @@ async function lastAssignee(timeline) {
  * @description - This function makes the comment with the issue assignee's github handle using the raw preliminary.md file
  */
 
-function makeComment(){
+function makeComment(timeline){
     // Setting all the variables which formatcomment is to be called with
     const issueCreator = lastAssignee(timeline)
     console.log('assigneename', issueCreator);
