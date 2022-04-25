@@ -15,6 +15,7 @@ var context
 async function main({ g, c }, { shouldPost, issueNum }){
     github = g
     context = c
+    const timeline = await getTimeline(issueNum);
     // If the previous action returns a false, stop here
     if(shouldPost === false){
       console.log('No need to post comment.')
@@ -31,13 +32,59 @@ async function main({ g, c }, { shouldPost, issueNum }){
 }
 
 /**
+ * Function that returns the timeline of an issue.
+ * @param {Number} issueNum the issue's number 
+ * @returns an Array of Objects containing the issue's timeline of events
+ */
+
+async function getTimeline(issueNum) {
+	let arra = []
+	let page = 1
+  while (true) {
+    try {
+      const results = await github.issues.listEventsForTimeline({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: issueNum,
+        per_page: 100,
+        page: page,
+      });
+      if (results.data.length) {
+	      arra = arra.concat(results.data);
+      } else {
+        break
+      }
+    } catch (err) {
+      console.log(error);
+			continue
+    }
+    finally {
+      page++
+    }
+  }
+	return arra
+}
+
+async function lastAssignee(timeline) {
+	for await (let [index, moment] of timeline.entries()) {
+		if (moment.event == 'assigned') { 
+			return {assinee.login}
+		}
+        else {
+            break
+        }
+    }
+}
+
+/**
  * @returns {string} - Comment to be posted with the issue creator's name in it!!!
  * @description - This function makes the comment with the issue assignee's github handle using the raw preliminary.md file
  */
 
 function makeComment(){
     // Setting all the variables which formatcomment is to be called with
-    const issueCreator = context.payload.issue.user.login
+    const issueCreator = lastAssignee(timeline)
+    console.log('assigneename', issueCreator);
 
     const commentObject = {
         replacementString: issueCreator,
