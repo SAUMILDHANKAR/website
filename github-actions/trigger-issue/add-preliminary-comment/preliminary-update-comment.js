@@ -83,7 +83,7 @@ async function lastAssignee(timeline) {
 
 function makeComment(timeline){
     // Setting all the variables which formatcomment is to be called with
-    const issueCreator = lastAssignee(timeline)
+    const issueCreator = await lastAssignee(timeline)
     console.log('assigneename', issueCreator);
 
     const commentObject = {
