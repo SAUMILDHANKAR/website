@@ -30,8 +30,8 @@ async function main({ g, c }, { shouldPost, issueNum }){
       // the actual creation of the comment in github
       await postComment(issueNum, instructions)
     }
-    */
     }
+    */
 }
 
 /**
