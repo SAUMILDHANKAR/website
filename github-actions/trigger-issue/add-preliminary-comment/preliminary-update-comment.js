@@ -15,8 +15,10 @@ var context
 async function main({ g, c }, { shouldPost, issueNum }){
     github = g
     context = c
-    const timeline = await getTimeline(issueNum);	
+    const timeline = await getTimeline(issueNum);
+    console.log(timeline);	
     // If the previous action returns a false, stop here
+	/**
     if(shouldPost === false){
       console.log('No need to post comment.')
       return
@@ -28,6 +30,7 @@ async function main({ g, c }, { shouldPost, issueNum }){
       // the actual creation of the comment in github
       await postComment(issueNum, instructions)
     }
+    */
     }
 }
 
@@ -64,7 +67,7 @@ async function getTimeline(issueNum) {
   }
 	return arra
 }
-
+/**
 async function lastAssignee(timeline) {
 	for await (let [index, moment] of timeline.entries()) {
 		if (moment.event == 'assigned') { 
@@ -75,12 +78,12 @@ async function lastAssignee(timeline) {
         	}
     	}
 }
-
+*/
 /**
  * @returns {string} - Comment to be posted with the issue creator's name in it!!!
  * @description - This function makes the comment with the issue assignee's github handle using the raw preliminary.md file
  */
-
+/**
 async function makeComment(timeline){
     // Setting all the variables which formatcomment is to be called with
     const issueCreator = await lastAssignee(timeline);
@@ -98,7 +101,7 @@ async function makeComment(timeline){
 
     return commentWithIssueCreator
 }
-
+*/
 
 /**
  * @param {String} replacementString - the string to replace the placeholder in the md file
@@ -108,20 +111,20 @@ async function makeComment(timeline){
  * @returns {String} - returns a formatted comment to be posted on github
  * @description - This function is called by makeComment() and it formats the comment to be posted based on an object input.
  */
-
+/**
 function formatComment({ replacementString, placeholderString, filePathToFormat, textToFormat }){
   const text = textToFormat === null ? fs.readFileSync(filePathToFormat).toString('utf-8') : textToFormat
   const commentToPost = text.replace(placeholderString, replacementString)
   return commentToPost
 }
-
+*/
 
 /**
  * @param {Number} issueNum - the issue number where the comment should be posted
  * @param {String} comment - the comment to be posted
  * @description - this function is called by main() with the result of makeComment() as the comment argument and it does the actual posting of the comment.
  */
-
+/**
  async function postComment(issueNum, comment){
   try{
     await github.issues.createComment({
@@ -135,5 +138,5 @@ function formatComment({ replacementString, placeholderString, filePathToFormat,
     throw new Error(err);
   }
 }
-  
+*/  
 module.exports = main
