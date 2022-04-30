@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-### Prerequisite
+### Prerequisite testing
 We are looking forward to having you on our team. Please make sure to attend the general Hack for LA onboarding to get the process started https://meetup.com/hackforla/events
 
 ### Overview
