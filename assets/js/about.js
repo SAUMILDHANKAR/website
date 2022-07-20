@@ -1,4 +1,4 @@
-// Constant setups for reuse throughout 
+// Constant setups for reuse throughout document
 // 7202022del2
 // commit 2
 // commit 5
