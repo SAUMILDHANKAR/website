@@ -1,6 +1,7 @@
 // Constant setups for reuse throughout document
 // 7202022del2
 // commit 2
+// commit 3
 const ANCHOR_LINKS_ID = [...document.querySelectorAll(".anchor")].map((anchor) => anchor.id);
 const NAVIGATION_LINK_ELEMENTS = document.querySelectorAll(".sticky-nav a");
 const VIEWPORT_HEIGHT = Math.max(document.documentElement.clientHeight || 0,  window.innerHeight || 0);
