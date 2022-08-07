@@ -12,13 +12,13 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [ "forcodeql", merge-conflict-1, merge-conflict-2 ]
-  pull_request:
+  # push:
+  #   branches: [ "forcodeql", merge-conflict-1, merge-conflict-2 ]
+  # pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "forcodeql" ]
+  #   branches: [ "forcodeql" ]
   schedule:
-    - cron: '29 19 * * 6'
+    - cron: '0 12 * * *'
 
 jobs:
   analyze:
