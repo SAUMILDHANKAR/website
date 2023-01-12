@@ -54,7 +54,7 @@ jobs:
         
         
     - name: "My CodeQL config"
-      uses: ./ExpressionInjection.ql
+      uses: ./.github/worflows/ExpressionInjection.ql
       
 
         
