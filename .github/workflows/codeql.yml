@@ -54,7 +54,7 @@ jobs:
         
         
     - name: "My CodeQL config"
-      uses: codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
+      uses: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
       
 
         
