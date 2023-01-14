@@ -54,7 +54,8 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         disable-default-queries: true
         #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
-        queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
+        #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
+        queries: ./.github/workflows/FunctionalityFromUntrustedSource.ql
         
         
     #- name: "My CodeQL config"
