@@ -5,10 +5,11 @@ disable-default-queries: true
 #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
 #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
 queries: 
-  - name: custom
-    uses: ./.github/workflows/FunctionalityFromUntrustedSource.ql
   - name: codeql/javascript-queries
     uses: ./.github/workflows/javascriptqlpack.yml
+  - name: custom
+    uses: ./.github/workflows/FunctionalityFromUntrustedSource.ql
+
 
 #./.github/workflows/codeql-config.yml
 #Security/CWE-079/XssThroughDom.ql
