@@ -61,8 +61,10 @@ jobs:
       uses: github/codeql-action/init@v2
       
       with:
-        queries: SAUMILDHANKAR/website/website/.github/workflows/ExpressionInjection.ql@forcodeqlv4
+        queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
         #octo-org/python-qlpack/show_ifs.ql@main
+        #github/codeql/cpp/ql/src@main
+        #SAUMILDHANKAR/website/website/.github/workflows/ExpressionInjection.ql@forcodeqlv4
 
         
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
