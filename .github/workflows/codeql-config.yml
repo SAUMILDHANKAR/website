@@ -2,6 +2,8 @@ name: "My CodeQL config"
 
 disable-default-queries: true
 
-queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
+#queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
+queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
+#Security/CWE-079/XssThroughDom.ql
   #- name: Use an in-repository QL pack (run queries in the my-queries directory)
     #uses: ./my-queries
