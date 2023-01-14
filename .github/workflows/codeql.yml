@@ -56,7 +56,7 @@ jobs:
         #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
         #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
         queries: ./.github/workflows/FunctionalityFromUntrustedSource.ql
-        #here2
+        #here3
         
         
     #- name: "My CodeQL config"
