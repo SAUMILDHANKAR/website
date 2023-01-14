@@ -55,7 +55,8 @@ jobs:
         disable-default-queries: true
         #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
         #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
-        queries: ./.github/workflows/FunctionalityFromUntrustedSource.ql
+        #queries: ./.github/workflows/FunctionalityFromUntrustedSource.ql
+        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
         #here5
         
         
