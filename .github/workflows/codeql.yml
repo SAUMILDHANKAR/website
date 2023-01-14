@@ -61,7 +61,7 @@ jobs:
       uses: github/codeql-action/init@v2
       
       with:
-        queries: ExpressionInjection.ql
+        queries: ./.github/worflows/ExpressionInjection.ql
       
 
         
