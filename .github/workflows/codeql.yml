@@ -53,8 +53,15 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         
         
+    #- name: "My CodeQL config"
+      #uses: ./.github/worflows/ExpressionInjection.ql
+      
+      
     - name: "My CodeQL config"
-      uses: ./.github/worflows/ExpressionInjection.ql
+      uses: github/codeql-action/init@v2
+      
+      with:
+        queries: ExpressionInjection.ql
       
 
         
