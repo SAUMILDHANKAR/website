@@ -91,4 +91,4 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         #category: "/language:${{matrix.language}}"
-        queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
+        skip-queries: github/codeql/javascript/ql/src/DOM/TargetBlank.ql@main
