@@ -47,21 +47,22 @@ jobs:
       uses: github/codeql-action/init@v2
       
       with:
-        languages: ${{ matrix.language }}
+        #languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
+        queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
         
         
     #- name: "My CodeQL config"
       #uses: ./.github/worflows/ExpressionInjection.ql
       
       
-    - name: "My CodeQL config"
-      uses: github/codeql-action/init@v2
+    #- name: "My CodeQL config"
+      #uses: github/codeql-action/init@v2
       
-      with:
-        queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
+      #with:
+        #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
         #octo-org/python-qlpack/show_ifs.ql@main
         #github/codeql/cpp/ql/src@main
         #SAUMILDHANKAR/website/website/.github/workflows/ExpressionInjection.ql@forcodeqlv4
