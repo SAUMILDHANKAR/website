@@ -4,7 +4,9 @@ disable-default-queries: true
 
 #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
 #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
-queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+#queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
+ 
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
 
