@@ -57,7 +57,10 @@ jobs:
         # queries: security-extended,security-and-quality
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
-        packs: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+        #packs: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+        queries:
+          - name: Use an external repo query
+            uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
       
 
 
