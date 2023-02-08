@@ -9,8 +9,11 @@ disable-default-queries: true
   #- uses: ./my-basic-queries/example-query.ql
   #- uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
   #- uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
-packs:
-  - SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+#packs:
+  #- SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+queries:
+  - name: Use an external repo query
+    uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 
 #queries: 
   #- name: codeql/javascript-queries
