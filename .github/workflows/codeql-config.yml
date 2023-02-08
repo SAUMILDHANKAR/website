@@ -4,16 +4,16 @@ disable-default-queries: true
 
 #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
 #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
-#queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 #queries:
   #- uses: ./my-basic-queries/example-query.ql
   #- uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
   #- uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 #packs:
   #- SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
-queries:
-  - name: Use an external repo query
-    uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+#queries:
+  #- name: Use an external repo query
+    #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 
 #queries: 
   #- name: codeql/javascript-queries
