@@ -55,7 +55,8 @@ jobs:
 
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
-        queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+        #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
+        uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
       
 
 
@@ -76,6 +77,8 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+      
       with:
         #category: "/language:${{matrix.language}}"
         disable-default-queries: true
+        uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
