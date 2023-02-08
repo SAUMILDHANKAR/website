@@ -80,7 +80,8 @@ jobs:
 
     - run: |
         echo "Run, Build Application using script"
-        ./location_of_script_within_repo/buildscript.sh
+        #./location_of_script_within_repo/buildscript.sh
+        ./buildscript.sh
     #- run: |
         #make bootstrap
         #make release
