@@ -1,0 +1,19 @@
+name: "My CodeQL config"
+
+disable-default-queries: true
+
+#queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
+#queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
+queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
+
+#queries: 
+  #- name: codeql/javascript-queries
+    #uses: ./.github/workflows/javascriptqlpack.yml
+  #- name: custom
+    #uses: ./.github/workflows/FunctionalityFromUntrustedSource.ql
+
+
+#./.github/workflows/codeql-config.yml
+#Security/CWE-079/XssThroughDom.ql
+  #- name: Use an in-repository QL pack (run queries in the my-queries directory)
+    #uses: ./my-queries
