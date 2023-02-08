@@ -10,7 +10,7 @@ disable-default-queries: true
   #- uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
   #- uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 packs:
-  - SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
+  - SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 
 #queries: 
   #- name: codeql/javascript-queries
