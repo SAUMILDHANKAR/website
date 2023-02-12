@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'java' ]
+        language: [ 'java' , 'javascript' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Use only 'java' to analyze code written in Java, Kotlin or both
         # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
@@ -57,7 +57,8 @@ jobs:
         # queries: security-extended,security-and-quality
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
-        queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
+        #queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
