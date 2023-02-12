@@ -56,7 +56,8 @@ jobs:
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
-        queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
+        #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
@@ -69,8 +70,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    #- name: Autobuild
-      #uses: github/codeql-action/autobuild@v2
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -78,10 +79,10 @@ jobs:
     #   If the Autobuild fails above, remove it and uncomment the following three lines.
     #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
 
-    - run: |
-        echo "Run, Build Application using script"
+    #- run: |
+        #echo "Run, Build Application using script"
         #./location_of_script_within_repo/buildscript.sh
-        ./buildscript.sh
+        #./buildscript.sh
     #- run: |
         #make bootstrap
         #make release
@@ -92,4 +93,4 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
         disable-default-queries: true
-        uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
+        #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
