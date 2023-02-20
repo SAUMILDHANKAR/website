@@ -56,7 +56,7 @@ jobs:
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
-        queries: SAUMILDHANKAR/codeql/javascript/ql/custom-queries/java/tests/Basic@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/custom-queries/javascript/tests/Basic@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
