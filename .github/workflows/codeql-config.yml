@@ -1,12 +1,12 @@
 name: "My CodeQL config"
 
-disable-default-queries: true
+#disable-default-queries: true
 
 #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
 #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
 #queries: SAUMILDHANKAR/codeql/javascript/ql/custom-queries/javascript/tests/Basic@testingquery
-queries: SAUMILDHANKAR/codeql/ruby/ql/src/queries/summary/LinesOfCode.ql@testingquery
+#queries: SAUMILDHANKAR/codeql/ruby/ql/src/queries/summary/LinesOfCode.ql@testingquery
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
 #queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
 #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
