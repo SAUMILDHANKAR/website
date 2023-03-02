@@ -1,6 +1,6 @@
 name: "My CodeQL config"
 
-#disable-default-queries: true
+disable-default-queries: true
 
 #queries: github/codeql/javascript/ql/src/Security/CWE-094/ExpressionInjection.ql@main
 #queries: github/codeql/javascript/ql/src/Security/CWE-079/XssThroughDom.ql@main
@@ -10,7 +10,7 @@ name: "My CodeQL config"
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
 #queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
 #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
-#queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
+queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
  
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
