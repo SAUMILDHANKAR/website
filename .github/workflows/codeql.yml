@@ -10,7 +10,7 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-#
+
 on:
   push:
     branches: [ "forcodeqlv5", merge-conflict-1, merge-conflict-2 ]
@@ -63,7 +63,8 @@ jobs:
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/queries/EmptyThen.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
-        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
+        #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/lib/semmle/javascript/YAML.qll@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
