@@ -65,7 +65,8 @@ jobs:
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/lib/semmle/javascript/YAML.qll@testingquery
-        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/CommentedOutCode.ql@testingquery
+        #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/CommentedOutCode.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
