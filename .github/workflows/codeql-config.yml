@@ -11,7 +11,9 @@ disable-default-queries: true
 #queries: SAUMILDHANKAR/codeql/java/ql/src/Security/CWE/CWE-074/JndiInjection.ql@testingquery
 #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
 #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
-queries: SAUMILDHANKAR/codeql/javascript/ql/lib/semmle/javascript/YAML.qll@testingquery
+#queries: SAUMILDHANKAR/codeql/javascript/ql/lib/semmle/javascript/YAML.qll@testingquery
+queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/CommentedOutCode.ql@testingquery
+
 
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
 #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
