@@ -48,7 +48,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        #config-file: ./.github/workflows/codeql-config.yml
+        config-file: ./.github/workflows/codeql-config.yml
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
@@ -56,7 +56,7 @@ jobs:
         #disable-default-queries: true
 
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
-        queries: security-extended,security-and-quality
+        #queries: security-extended,security-and-quality
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/custom-queries/javascript/tests/Basic@testingquery
         #queries: SAUMILDHANKAR/codeql/ruby/ql/src/queries/summary/LinesOfCode.ql@testingquery
@@ -65,6 +65,7 @@ jobs:
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@main
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/lib/semmle/javascript/YAML.qll@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/CommentedOutCode.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
@@ -99,5 +100,5 @@ jobs:
       
       with:
         category: "/language:${{matrix.language}}"
-        #disable-default-queries: true
+        disable-default-queries: true
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
