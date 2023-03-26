@@ -67,7 +67,7 @@ jobs:
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Security/CWE-830/FunctionalityFromUntrustedSource.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/lib/semmle/javascript/YAML.qll@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/CommentedOutCode.ql@testingquery
-        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/ToDoComments.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/TodoComments.ql@testingquery
         # results not processed for the following query
         #queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
