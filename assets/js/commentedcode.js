@@ -143,3 +143,11 @@ var ampdoc;
 
 // false negative:
 // if(x instanceof Array) {
+
+//following line should be an error
+// TODO console log hello world
+
+/**
+TODO
+read more about regex for todo comment ql
+*/
