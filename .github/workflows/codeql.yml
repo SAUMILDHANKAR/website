@@ -59,7 +59,7 @@ jobs:
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         #TODO this is a test comment should not be part of alert
         #// TODO another test
-        queries: security-extended,security-and-quality
+        #queries: security-extended,security-and-quality
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen@testingquery
         #queries: SAUMILDHANKAR/codeql/javascript/ql/custom-queries/javascript/tests/Basic@testingquery
         #queries: SAUMILDHANKAR/codeql/ruby/ql/src/queries/summary/LinesOfCode.ql@testingquery
@@ -75,7 +75,7 @@ jobs:
         #following query should generate 2 code scanning alerts
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/FUTUREBUG.ql@testingquery
         # results not processed for the following query
-        #queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
