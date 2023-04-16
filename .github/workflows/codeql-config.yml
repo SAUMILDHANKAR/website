@@ -21,7 +21,8 @@ disable-default-queries: true
 #following query should generate 2 code scanning alerts
 #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/FUTUREBUG.ql@testingquery
 # results not processed for the following query
-queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
+#queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
+queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/printAst.ql@testingquery
 
 
 
