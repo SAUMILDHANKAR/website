@@ -74,10 +74,11 @@ jobs:
         #following query generated around 4 code scanning alerts especially 2 todo comments written by me in comment.js file
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/TodoComments.ql@testingquery
         #following query should generate 2 code scanning alerts
-        #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/FUTUREBUG.ql@testingquery
+        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/FUTUREBUG.ql@testingquery
         # results not processed for the following query
         #queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
-        queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/printAst.ql@testingquery
+        # following returned no result
+        #queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/printAst.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/EmptyThen.qlref@testingquery
         #uses: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen
