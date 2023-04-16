@@ -34,3 +34,12 @@
     country: <
         Kummerland
 - !include external.yml
+
+"unterminated string
+
+42
+
+
+- &A { x: 23, y: 42 }
+- x: 56
+  <<: *A
