@@ -159,3 +159,11 @@ read more about regex for todo comment ql
 FUTUREBUG
 read more about regex for todo comment ql
 */
+
+//following line should be an error
+// FUTUREBUG console log hello world
+
+/**
+FUTUREBUG
+read more about regex for todo comment ql
+*/
