@@ -35,11 +35,13 @@
         Kummerland
 - !include external.yml
 
+- &A { x: 23, y: 42 }
+- x: 56
+  <<: *A
+
 "unterminated string
 
 42
 
 
-- &A { x: 23, y: 42 }
-- x: 56
-  <<: *A
+
