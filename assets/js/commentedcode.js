@@ -167,3 +167,6 @@ read more about regex for todo comment ql
 FUTUREBUG
 read more about regex for todo comment ql
 */
+
+
+// <title>{% if page.title %}{{ page.title | escape }} - {% endif %}{{ site.title | escape}}</title>
