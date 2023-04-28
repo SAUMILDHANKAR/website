@@ -170,3 +170,7 @@ read more about regex for todo comment ql
 
 
 // <title>{% if page.title %}{{ page.title | escape }} - {% endif %}{{ site.title | escape}}</title>
+
+// FUTURE{{OK}}BUG
+
+// FUTURE\{\{OK\}\}BUG
