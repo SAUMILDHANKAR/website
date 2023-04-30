@@ -178,3 +178,8 @@ read more about regex for todo comment ql
 // FUTURE{{O}}BUG
 
 // FUTURE{{jfh dkfk}}BUG
+
+
+<!-- {{newhtmlcomment}}
+
+<!-- {{newhtmlcomment}} -->
