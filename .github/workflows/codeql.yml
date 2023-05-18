@@ -75,10 +75,12 @@ jobs:
         #following query should generate 2 code scanning alerts and added liquid errors
         #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/FUTUREBUG.ql@testingquery
         #following query should generate 2 code scanning alerts with updated desc
-        queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/ForLiquidComment.ql@testingquery
+        #queries: SAUMILDHANKAR/codeql/javascript/ql/src/Comments/ForLiquidComment.ql@testingquery
         # earlier results not processed for the following query
         # now following query generates one code alert
         #queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/tests.ql@testingquery
+        # following query should generate YAML node anchor alert
+        queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/ForYAMLNodeAnchor.ql@testingquery
         # following returned no result
         #queries: SAUMILDHANKAR/codeql/javascript/ql/test/library-tests/YAML/printAst.ql@testingquery
         #queries: SAUMILDHANKAR/codeql/java/ql/custom-queries/java/tests/EmptyThen/Test.java@testingquery
