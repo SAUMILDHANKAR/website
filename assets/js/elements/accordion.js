@@ -8,6 +8,8 @@
         let forcodeqlerrorvarv1;
         forcodeqlerrorvarv2 = 6;
         let forcodeqlerrorvarv2;
+        forcodeqlerrorvarv3 = 9;
+        let forcodeqlerrorvarv3;
         showAnswer[i].addEventListener("click", function () {
 
             this.classList.toggle("active");
