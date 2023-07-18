@@ -4,6 +4,7 @@
     for (var i = 0; i < showAnswer.length; i++) {
         forcodeqlerrorvar = 3;
         let forcodeqlerrorvar;
+        // do this
         forcodeqlerrorvarv1 = 5;
         let forcodeqlerrorvarv1;
         forcodeqlerrorvarv2 = 6;
